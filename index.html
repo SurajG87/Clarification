@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clarification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path fill="%23f1c40f" opacity="0.15" d="M100 20c-30 0-50 25-50 50 0 20 15 35 35 45-5 10-10 20-10 30 0 20 15 35 35 35s35-15 35-35c0-10-5-20-10-30 20-10 35-25 35-45 0-25-20-50-50-50z"/><path fill="%23d35400" opacity="0.15" d="M85 75c0-5 5-10 10-10h10c5 0 10 5 10 10v5c0 5-5 10-10 10h-10c-5 0-10-5-10-10v-5z"/></svg>');
+            background-size: 120px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        
+        .main-container {
+            max-width: 320px;
+            width: 100%;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 4px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 14px;
+            margin-bottom: 2px;
+            font-weight: 700;
+        }
+        
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        label {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 12px;
+        }
+        
+        input {
+            padding: 8px 10px;
+            border: 1px solid #dcdfe6;
+            border-radius: 6px;
+            font-size: 12px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 280px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        
+        .steps-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .steps-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 8px;
+        }
+        
+        .steps-container::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 8px;
+        }
+        
+        .step {
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            padding: 10px;
+            border-left: 3px solid #3498db;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active {
+            background-color: #e3f2fd;
+            border-left-color: #1e88e5;
+        }
+        
+        .step.completed {
+            background-color: #e8f5e9;
+            border-left-color: #43a047;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 12px;
+            margin-bottom: 3px;
+        }
+        
+        .step-details {
+            color: #5a6c7d;
+            font-size: 12px;
+        }
+        
+        .chemical-amount {
+            font-weight: 600;
+            color: #e74c3c;
+        }
+        
+        .timer-controls {
+            margin-top: 6px;
+            display: flex;
+            gap: 6px;
+        }
+        
+        .timer-btn {
+            padding: 4px 8px;
+            border: none;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .start-timer {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .start-timer:hover {
+            background-color: #2980b9;
+        }
+        
+        .stop-timer {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .stop-timer:hover {
+            background-color: #c0392b;
+        }
+        
+        .timer-display {
+            font-weight: 600;
+            color: #e67e22;
+            margin-top: 3px;
+            font-size: 12px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px;
+        }
+        
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            margin: 0 4px;
+            font-size: 12px;
+        }
+        
+        #prevBtn {
+            background-color: #ecf0f1;
+            color: #7f8c8d;
+        }
+        
+        #prevBtn:hover:not(:disabled) {
+            background-color: #dde4e6;
+        }
+        
+        #nextBtn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        #nextBtn:hover:not(:disabled) {
+            background-color: #2980b9;
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background-color: #ecf0f1;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #3498db;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .copyright {
+            text-align: center;
+            font-size: 11px;
+            color: #7f8c8d;
+            margin-top: 8px;
+        }
+        
+        .alarm-notification {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background-color: #e74c3c;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            animation: slideIn 0.5s ease, pulse 1s infinite;
+            font-size: 12px;
+            max-width: 200px;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .alarm-notification.show {
+            display: block;
+        }
+
+        .timer-complete {
+            color: #e74c3c !important;
+            font-weight: 800 !important;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        /* iPhone optimization */
+        @media (max-width: 375px) {
+            .main-container {
+                max-width: 100%;
+                padding: 12px;
+            }
+            
+            .steps-container {
+                max-height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <h1>Clarification</h1>
+        </div>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <label for="juiceAmount">Weigh the juice (ml)</label>
+                <input type="number" id="juiceAmount" placeholder="Enter juice amount in ml" min="0" value="1000">
+            </div>
+        </div>
+        
+        <div class="steps-container">
+            <div class="step active" id="step1">
+                <div class="step-title">
+                    Add Kieselsol
+                </div>
+                <div class="step-details">
+                    Amount: <span class="chemical-amount" id="kieselsol1">4.0 ml</span>
+                </div>
+            </div>
+            
+            <div class="step" id="step2">
+                <div class="step-title">
+                    Add Pectinex Ultra SP-L
+                </div>
+                <div class="step-details">
+                    Amount: <span class="chemical-amount" id="pectinex">4.0 ml</span>
+                </div>
+            </div>
+            
+            <div class="step" id="step3">
+                <div class="step-title">
+                    Mix
+                </div>
+                <div class="step-details">
+                    Duration: 10 minutes
+                    <div class="timer-controls">
+                        <button class="timer-btn start-timer" data-step="3">Start Timer</button>
+                        <button class="timer-btn stop-timer" data-step="3">Stop Timer</button>
+                    </div>
+                    <div class="timer-display" id="timer3">10:00</div>
+                </div>
+            </div>
+            
+            <div class="step" id="step4">
+                <div class="step-title">
+                    Add Chitosan
+                </div>
+                <div class="step-details">
+                    Amount: <span class="chemical-amount" id="chitosan">4.0 ml</span>
+                </div>
+            </div>
+            
+            <div class="step" id="step5">
+                <div class="step-title">
+                    Mix
+                </div>
+                <div class="step-details">
+                    Duration: 10 minutes
+                    <div class="timer-controls">
+                        <button class="timer-btn start-timer" data-step="5">Start Timer</button>
+                        <button class="timer-btn stop-timer" data-step="5">Stop Timer</button>
+                    </div>
+                    <div class="timer-display" id="timer5">10:00</div>
+                </div>
+            </div>
+            
+            <div class="step" id="step6">
+                <div class="step-title">
+                    Add Kieselsol
+                </div>
+                <div class="step-details">
+                    Amount: <span class="chemical-amount" id="kieselsol2">4.0 ml</span>
+                </div>
+            </div>
+            
+            <div class="step" id="step7">
+                <div class="step-title">
+                    Mix
+                </div>
+                <div class="step-details">
+                    Duration: 10 minutes
+                    <div class="timer-controls">
+                        <button class="timer-btn start-timer" data-step="7">Start Timer</button>
+                        <button class="timer-btn stop-timer" data-step="7">Stop Timer</button>
+                    </div>
+                    <div class="timer-display" id="timer7">10:00</div>
+                </div>
+            </div>
+            
+            <div class="step" id="step8">
+                <div class="step-title">
+                    Run through Centrifuge
+                </div>
+                <div class="step-details">
+                    Make sure all bottles have equal weight
+                </div>
+            </div>
+            
+            <div class="step" id="step9">
+                <div class="step-title">
+                    Done
+                </div>
+                <div class="step-details">
+                    Your clarified juice is ready!
+                </div>
+            </div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        
+        <div class="controls">
+            <button id="prevBtn" disabled>Previous</button>
+            <button id="nextBtn">Next Step</button>
+        </div>
+        
+        <div class="copyright">
+            Copyright Beverage Solution by Suraj
+        </div>
+    </div>
+
+    <div class="alarm-notification" id="alarmNotification">
+        ⏰ Timer Completed! ⏰
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const juiceAmountInput = document.getElementById('juiceAmount');
+            const steps = document.querySelectorAll('.step');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progress');
+            const alarmNotification = document.getElementById('alarmNotification');
+            const chemicalAmounts = {
+                kieselsol1: document.getElementById('kieselsol1'),
+                pectinex: document.getElementById('pectinex'),
+                chitosan: document.getElementById('chitosan'),
+                kieselsol2: document.getElementById('kieselsol2')
+            };
+            
+            let currentStep = 0;
+            const totalSteps = steps.length;
+            let timers = {};
+            
+            // Create alarm sound using Web Audio API
+            function createAlarmSound() {
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    
+                    // Create multiple oscillators for a more complex alarm sound
+                    for (let i = 0; i < 3; i++) {
+                        const oscillator = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+                        
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+                        
+                        oscillator.type = ['sine', 'square', 'sawtooth'][i];
+                        oscillator.frequency.value = 600 + (i * 200);
+                        gainNode.gain.value = 0.2;
+                        
+                        oscillator.start();
+                        
+                        // Stop after different durations
+                        setTimeout(() => {
+                            oscillator.stop();
+                        }, 1000 + (i * 200));
+                    }
+                } catch (e) {
+                    // Fallback: use browser beep
+                    console.log("Alarm triggered!");
+                }
+            }
+            
+            // Update chemical amounts based on juice input
+            function updateChemicalAmounts() {
+                const juiceAmount = parseInt(juiceAmountInput.value) || 1000;
+                const ratio = juiceAmount / 1000;
+                
+                for (const key in chemicalAmounts) {
+                    const amount = (4 * ratio).toFixed(1);
+                    chemicalAmounts[key].textContent = `${amount} ml`;
+                }
+            }
+            
+            // Initialize chemical amounts
+            updateChemicalAmounts();
+            
+            // Update when juice amount changes
+            juiceAmountInput.addEventListener('input', updateChemicalAmounts);
+            
+            // Timer functions
+            function startTimer(stepNumber) {
+                // Stop any existing timer for this step
+                if (timers[stepNumber]) {
+                    clearInterval(timers[stepNumber].interval);
+                }
+                
+                const timerDisplay = document.getElementById(`timer${stepNumber}`);
+                let timeLeft = 10 * 60; // 10 minutes in seconds
+                
+                // Reset display style
+                timerDisplay.classList.remove('timer-complete');
+                timerDisplay.style.color = '#e67e22';
+                
+                timers[stepNumber] = {
+                    interval: setInterval(() => {
+                        timeLeft--;
+                        
+                        if (timeLeft <= 0) {
+                            clearInterval(timers[stepNumber].interval);
+                            timerDisplay.textContent = "00:00";
+                            timerDisplay.classList.add('timer-complete');
+                            triggerAlarm();
+                        } else {
+                            const minutes = Math.floor(timeLeft / 60);
+                            const seconds = timeLeft % 60;
+                            timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                            
+                            // Change color when less than 1 minute
+                            if (timeLeft < 60) {
+                                timerDisplay.style.color = '#e74c3c';
+                            }
+                        }
+                    }, 1000),
+                    timeLeft: timeLeft
+                };
+            }
+            
+            function stopTimer(stepNumber) {
+                if (timers[stepNumber]) {
+                    clearInterval(timers[stepNumber].interval);
+                    const timerDisplay = document.getElementById(`timer${stepNumber}`);
+                    timerDisplay.textContent = "10:00";
+                    timerDisplay.classList.remove('timer-complete');
+                    timerDisplay.style.color = '#e67e22';
+                    delete timers[stepNumber];
+                }
+            }
+            
+            function triggerAlarm() {
+                // Show notification
+                alarmNotification.classList.add('show');
+                
+                // Play alarm sound
+                createAlarmSound();
+                
+                // Hide notification after 5 seconds
+                setTimeout(() => {
+                    alarmNotification.classList.remove('show');
+                // Reset all timer displays
+                    document.querySelectorAll('.timer-display').forEach(display => {
+                        display.classList.remove('timer-complete');
+                        display.style.color = '#e67e22';
+                    });
+                }, 5000);
+            }
+            
+            // Timer button event listeners
+            document.querySelectorAll('.start-timer').forEach(button => {
+                button.addEventListener('click', function() {
+                    const stepNumber = this.getAttribute('data-step');
+                    startTimer(stepNumber);
+                });
+            });
+            
+            document.querySelectorAll('.stop-timer').forEach(button => {
+                button.addEventListener('click', function() {
+                    const stepNumber = this.getAttribute('data-step');
+                    stopTimer(stepNumber);
+                });
+            });
+            
+            // Update step progress
+            function updateProgress() {
+                const progress = ((currentStep + 1) / totalSteps) * 100;
+                progressBar.style.width = `${progress}%`;
+            }
+            
+            // Update UI based on current step
+            function updateUI() {
+                // Reset all steps
+                steps.forEach(step => {
+                    step.classList.remove('active', 'completed');
+                });
+                
+                // Mark previous steps as completed
+                for (let i = 0; i < currentStep; i++) {
+                    steps[i].classList.add('completed');
+                }
+                
+                // Mark current step as active
+                steps[currentStep].classList.add('active');
+                
+                // Update button states
+                prevBtn.disabled = currentStep === 0;
+                nextBtn.disabled = currentStep === totalSteps - 1;
+                nextBtn.textContent = currentStep === totalSteps - 1 ? 'Finish' : 'Next Step';
+                
+                // Update progress bar
+                updateProgress();
+                
+                // Scroll current step into view
+                steps[currentStep].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            
+            // Handle next button click
+            nextBtn.addEventListener('click', function() {
+                if (currentStep < totalSteps - 1) {
+                    currentStep++;
+                    updateUI();
+                } else {
+                    // Finished all steps
+                    alert('Clarification process completed!');
+                }
+            });
+            
+            // Handle previous button click
+            prevBtn.addEventListener('click', function() {
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateUI();
+                }
+            });
+            
+            // Initialize UI
+            updateUI();
+        });
+    </script>
+</body>
+</html>
