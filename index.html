@@ -2,1324 +2,3124 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BarStock Pro - Inventory Management</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cocktail Manual</title>
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍸</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍸</text></svg>">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Cocktail Manual">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
-
-        :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-            --success: #2ecc71;
-            --warning: #f39c12;
-            --danger: #e74c3c;
-        }
-
+        
         body {
-            background-color: #f5f7fa;
-            color: #333;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0A0A0A;
+            color: white;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-size-adjust: 100%;
+            font-size: 16px;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
+        
+        .app {
+            min-height: 100vh;
+            background: #0A0A0A;
+            position: relative;
         }
-
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-
-        .header-content {
+        
+        /* Header */
+        .header {
+            background: #1A1A1A;
+            padding: 1rem;
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: 70px;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
         }
-
-        .logo {
+        
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 1rem;
         }
-
-        .logo i {
-            font-size: 2rem;
-        }
-
-        .logo h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 8px 15px;
-            border-radius: 4px;
-            transition: background 0.3s;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .dashboard {
-            display: grid;
-            grid-template-columns: 1fr 3fr;
-            gap: 20px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .card-header h2 {
-            font-size: 1.4rem;
-            color: var(--primary);
-        }
-
-        .btn {
-            padding: 10px 20px;
+        
+        .menu-button {
+            background: none;
             border: none;
-            border-radius: 5px;
+            color: white;
             cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background: var(--secondary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #2980b9;
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #27ae60;
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #c0392b;
-        }
-
-        .btn-warning {
-            background: var(--warning);
-            color: white;
-        }
-
-        .btn-warning:hover {
-            background: #e67e22;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
-
-        .stat-card i {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: var(--secondary);
-        }
-
-        .stat-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            color: var(--primary);
-        }
-
-        .stat-card p {
-            color: #7f8c8d;
-            font-weight: 500;
-        }
-
-        .inventory-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .inventory-table th, .inventory-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-
-        .inventory-table th {
-            background-color: #f8f9fa;
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .inventory-table tr:hover {
-            background-color: #f8f9fa;
-        }
-
-        .low-stock {
-            color: var(--danger);
-            font-weight: 600;
-        }
-
-        .good-stock {
-            color: var(--success);
-            font-weight: 600;
-        }
-
-        .stock-level {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-
-        .low {
-            background: rgba(231, 76, 60, 0.1);
-            color: var(--danger);
-        }
-
-        .medium {
-            background: rgba(243, 156, 18, 0.1);
-            color: var(--warning);
-        }
-
-        .high {
-            background: rgba(46, 204, 113, 0.1);
-            color: var(--success);
-        }
-
-        .search-bar {
-            display: flex;
-            margin-bottom: 20px;
-        }
-
-        .search-bar input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px 0 0 5px;
-            font-size: 1rem;
-        }
-
-        .search-bar button {
-            padding: 12px 20px;
-            background: var(--secondary);
-            color: white;
-            border: none;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-        }
-
-        .scanner-section {
-            text-align: center;
-            padding: 30px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            margin-bottom: 30px;
-        }
-
-        .scanner {
-            width: 300px;
-            height: 200px;
-            margin: 0 auto 20px;
-            background: #f8f9fa;
-            border: 2px dashed #ddd;
-            border-radius: 10px;
+            padding: 0.5rem;
             display: flex;
             flex-direction: column;
+            gap: 4px;
+            width: 30px;
+            height: 30px;
             justify-content: center;
             align-items: center;
-            color: #7f8c8d;
-            cursor: pointer;
         }
-
-        .scanner i {
-            font-size: 3rem;
-            margin-bottom: 15px;
+        
+        .menu-line {
+            width: 20px;
+            height: 2px;
+            background: white;
+            transition: all 0.3s ease;
         }
-
-        .action-buttons {
+        
+        .menu-button.active .menu-line:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+        
+        .menu-button.active .menu-line:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-button.active .menu-line:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+        
+        .nav-user {
+            color: #FFB366;
+            font-size: 0.9rem;
             display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
+            align-items: center;
+            gap: 0.5rem;
         }
-
-        .modal {
-            display: none;
+        
+        .logout-btn {
+            background: transparent;
+            border: 1px solid #FFB366;
+            color: #FFB366;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+        
+        .logout-btn:hover {
+            background: #FFB366;
+            color: #0A0A0A;
+        }
+        
+        /* Side Menu */
+        .side-menu-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            right: 0;
+            bottom: 0;
             background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .side-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100vh;
+            background: #1A1A1A;
+            border-right: 1px solid #333;
             z-index: 1000;
-        }
-
-        .modal-content {
-            background: white;
-            width: 500px;
-            max-width: 90%;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            max-height: 90vh;
+            transition: left 0.3s ease;
             overflow-y: auto;
+            padding: 2rem 1rem;
         }
-
-        .modal-header {
+        
+        .side-menu.active {
+            left: 0;
+        }
+        
+        .side-menu-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #333;
+        }
+        
+        .side-menu-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFB366, #FF8C42);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .side-menu-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FFB366;
+        }
+        
+        .side-menu-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .side-menu-button {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .side-menu-button:hover {
+            background: #444;
+            transform: translateX(5px);
+        }
+        
+        .side-menu-button.active {
+            background: #FFB366;
+            color: #0A0A0A;
+        }
+        
+        .side-menu-button.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .side-menu-button.disabled:hover {
+            background: #333;
+            transform: none;
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .page-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
-
-        .modal-header h2 {
-            color: var(--primary);
+        
+        .page-title {
+            font-size: 1.8rem;
+            color: #FFB366;
         }
-
-        .close {
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #7f8c8d;
+        
+        /* Search and Filters */
+        .search-section {
+            background: #1A1A1A;
+            padding: 1.25rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border: 1px solid #333;
         }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--primary);
-        }
-
-        .form-group input, .form-group select, .form-group textarea {
+        
+        .search-box {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 0.75rem;
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 6px;
+            color: white;
+            margin-bottom: 1rem;
             font-size: 1rem;
         }
-
-        .form-actions {
+        
+        .filters {
             display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 30px;
+            gap: 0.75rem;
+            flex-wrap: wrap;
         }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            color: #7f8c8d;
-            border-top: 1px solid #eee;
+        
+        .filter-select {
+            padding: 0.75rem;
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 6px;
+            color: white;
+            flex: 1;
+            min-width: 140px;
+            font-size: 0.9rem;
         }
-
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 20px;
+        
+        /* Recipe Grid */
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
         }
-
-        .tab {
-            padding: 10px 20px;
+        
+        .recipe-card {
+            background: #1A1A1A;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #333;
+            transition: all 0.2s ease;
             cursor: pointer;
-            border-bottom: 3px solid transparent;
+            position: relative;
         }
-
-        .tab.active {
-            border-bottom: 3px solid var(--secondary);
-            color: var(--secondary);
-            font-weight: 600;
+        
+        .recipe-card:hover {
+            transform: translateY(-2px);
+            border-color: #FFB366;
         }
-
-        .tab-content {
-            display: none;
+        
+        .recipe-image {
+            width: 100%;
+            height: 160px;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            background-size: cover;
+            background-position: center;
+            position: relative;
         }
-
-        .tab-content.active {
+        
+        .recipe-info {
+            padding: 0.75rem;
+        }
+        
+        .recipe-name {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+            line-height: 1.2;
+        }
+        
+        .recipe-spirit {
+            color: #FFB366;
+            font-size: 0.8rem;
+        }
+        
+        /* Alphabet Sections */
+        .alphabet-section {
+            margin-bottom: 2rem;
+        }
+        
+        .letter-header {
+            font-size: 1.5rem;
+            color: #FFB366;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #FFB366;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            margin-top: 2rem;
+            border-top: 1px solid #333;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .footer a {
+            color: #FFB366;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Form Styles */
+        .form {
+            background: #1A1A1A;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #333;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-label {
             display: block;
+            margin-bottom: 0.5rem;
+            color: #FFB366;
+            font-size: 0.9rem;
         }
-
-        .venue-list, .user-list, .area-list {
-            margin-top: 20px;
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 6px;
+            color: white;
+            font-size: 16px; /* Prevent zoom on iOS */
         }
-
-        .venue-item, .user-item, .area-item {
+        
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 6px;
+            color: white;
+            min-height: 100px;
+            resize: vertical;
+            font-size: 16px; /* Prevent zoom on iOS */
+            font-family: inherit;
+        }
+        
+        .button {
+            background: #FFB366;
+            color: #0A0A0A;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+            font-size: 1rem;
+        }
+        
+        .button:hover {
+            background: #FF8C42;
+        }
+        
+        .button-secondary {
+            background: #333;
+            color: white;
+        }
+        
+        .button-secondary:hover {
+            background: #444;
+        }
+        
+        .buttons-row {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .buttons-row .button {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        /* Image Upload */
+        .image-upload {
+            border: 2px dashed #555;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        
+        .image-upload:hover {
+            border-color: #FFB366;
+        }
+        
+        .image-preview {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+        
+        /* Scale Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+        
+        .modal {
+            background: #1A1A1A;
+            border-radius: 10px;
+            padding: 1.5rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid #333;
+        }
+        
+        /* Recipe View */
+        .recipe-view {
+            background: #1A1A1A;
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 1px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .recipe-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: 0;
+            filter: brightness(0.3) contrast(1.2);
+        }
+        
+        .recipe-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .recipe-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .recipe-title {
+            font-size: 1.8rem;
+            color: #FFB366;
+            margin-bottom: 0.5rem;
+        }
+        
+        .recipe-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        
+        .meta-item {
+            background: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .recipe-image-large {
+            width: 100%;
+            max-width: 300px;
+            height: 300px;
+            background: #333;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .recipe-details {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @media (min-width: 768px) {
+            .recipe-details {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .ingredients-list {
+            list-style: none;
+        }
+        
+        .ingredient-item {
+            padding: 0.75rem;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .ingredient-item:last-child {
+            border-bottom: none;
+        }
+        
+        .instructions {
+            white-space: pre-line;
+            line-height: 1.6;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .action-button {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        
+        .action-button:hover {
+            background: #444;
+        }
+        
+        .action-button.scale {
+            background: #FFB366;
+            color: #0A0A0A;
+        }
+        
+        .action-button.scale:hover {
+            background: #FF8C42;
+        }
+        
+        .action-button.edit {
+            background: #4CAF50;
+        }
+        
+        .action-button.edit:hover {
+            background: #45a049;
+        }
+        
+        .action-button.delete {
+            background: #f44336;
+        }
+        
+        .action-button.delete:hover {
+            background: #d32f2f;
+        }
+        
+        /* Syrups Grid */
+        .syrups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .syrup-card {
+            background: #1A1A1A;
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid #333;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .syrup-card:hover {
+            transform: translateY(-2px);
+            border-color: #FFB366;
+        }
+        
+        .syrup-image {
+            width: 100%;
+            height: 120px;
+            background: #333;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .syrup-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #FFB366;
+        }
+        
+        .syrup-cost {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Settings */
+        .settings-section {
+            background: #1A1A1A;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #333;
+            margin-bottom: 1.5rem;
+        }
+        
+        .settings-title {
+            font-size: 1.3rem;
+            color: #FFB366;
+            margin-bottom: 1rem;
+        }
+        
+        .settings-list {
+            list-style: none;
+            min-height: 60px;
+        }
+        
+        .settings-item {
+            padding: 1rem;
+            border-bottom: 1px solid #333;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            border: 1px solid #eee;
-            border-radius: 5px;
-            margin-bottom: 10px;
+            cursor: move;
+            background: #1A1A1A;
+            transition: background 0.2s;
+            user-select: none;
         }
-
-        .item-actions {
+        
+        .settings-item:hover {
+            background: #222;
+        }
+        
+        .settings-item.dragging {
+            opacity: 0.5;
+            background: #333;
+        }
+        
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+        
+        .settings-actions {
             display: flex;
-            gap: 10px;
+            gap: 0.5rem;
         }
-
-        .item-actions button {
-            padding: 5px 10px;
-            font-size: 0.8rem;
-        }
-
-        .multi-user-indicator {
+        
+        .icon-button {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 10px;
-            background: rgba(52, 152, 219, 0.1);
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            font-size: 1rem;
         }
-
-        .multi-user-indicator i {
-            color: var(--secondary);
+        
+        .icon-button:hover {
+            background: #444;
         }
-
+        
+        .icon-button.delete {
+            background: #f44336;
+        }
+        
+        .icon-button.delete:hover {
+            background: #d32f2f;
+        }
+        
+        /* Scale Options */
+        .scale-option {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background: #1A1A1A;
+        }
+        
+        .scale-option-title {
+            font-size: 1.1rem;
+            color: #FFB366;
+            margin-bottom: 0.5rem;
+        }
+        
+        .scale-option-description {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .radio-option input {
+            margin: 0;
+        }
+        
+        .dilution-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .dilution-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .dilution-option input {
+            margin: 0;
+        }
+        
+        .dilution-label {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .dilution-percentage {
+            font-weight: bold;
+            color: #FFB366;
+        }
+        
+        .dilution-description {
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        /* Servings Info */
+        .servings-info {
+            background: #333;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .servings-count {
+            font-size: 1.2rem;
+            color: #FFB366;
+            font-weight: bold;
+        }
+        
+        /* Responsive */
         @media (max-width: 768px) {
-            .dashboard {
-                grid-template-columns: 1fr;
+            .header {
+                padding: 0.75rem;
+                height: 60px;
             }
             
-            .stats {
-                grid-template-columns: 1fr;
+            .container {
+                padding: 0.75rem;
             }
             
-            .header-content {
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .recipes-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 0.5rem;
+            }
+            
+            .recipe-image {
+                height: 140px;
+            }
+            
+            .filters {
                 flex-direction: column;
-                gap: 15px;
             }
             
-            .nav-links {
-                width: 100%;
-                justify-content: center;
+            .filter-select {
+                min-width: auto;
             }
+            
+            .side-menu {
+                width: 85%;
+                max-width: 280px;
+            }
+            
+            .form {
+                padding: 1rem;
+            }
+            
+            .buttons-row {
+                flex-direction: column;
+            }
+            
+            .buttons-row .button {
+                width: 100%;
+            }
+            
+            .nav-user {
+                font-size: 0.8rem;
+            }
+            
+            .logout-btn {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            
+            .recipe-header {
+                flex-direction: column;
+            }
+            
+            .action-buttons {
+                width: 100%;
+            }
+            
+            .action-buttons button {
+                flex: 1;
+            }
+            
+            .syrups-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .modal {
+                margin: 1rem;
+                padding: 1rem;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .recipes-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+            
+            .recipe-image {
+                height: 120px;
+            }
+            
+            .search-section {
+                padding: 1rem;
+            }
+            
+            .page-title {
+                font-size: 1.3rem;
+            }
+            
+            .syrups-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        /* Prevent zoom on mobile */
+        input, select, textarea {
+            font-size: 16px !important;
+            max-height: 44px; /* Better touch targets */
+        }
+        
+        /* Hide scrollbar for side menu */
+        .side-menu::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .side-menu::-webkit-scrollbar-track {
+            background: #1A1A1A;
+        }
+        
+        .side-menu::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 2px;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .form-input, .form-textarea, .filter-select, .search-box {
+                font-size: 16px; /* Prevent iOS zoom */
+                padding: 1rem; /* Better touch targets */
+            }
+            
+            .button {
+                padding: 1rem 1.5rem; /* Better touch targets */
+                min-height: 44px; /* Minimum touch target size */
+            }
+            
+            .action-button {
+                padding: 1rem;
+                min-height: 44px;
+            }
+        }
+        
+        /* Sync Status */
+        .sync-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 0.5rem;
+        }
+        
+        .sync-status.syncing {
+            color: #FFB366;
+        }
+        
+        .sync-status.success {
+            color: #4CAF50;
+        }
+        
+        .sync-status.error {
+            color: #f44336;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-wine-bottle"></i>
-                    <h1>BarStock Pro</h1>
-                </div>
-                <div class="nav-links">
-                    <a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a>
-                    <a href="#"><i class="fas fa-clipboard-list"></i> Stocktake</a>
-                    <a href="#"><i class="fas fa-chart-bar"></i> Reports</a>
-                    <a href="#" id="settingsBtn"><i class="fas fa-cog"></i> Settings</a>
-                </div>
-                <div class="user-info">
-                    <div class="user-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <span>Admin User</span>
-                </div>
-            </div>
-        </div>
-    </header>
+    <div id="root"></div>
 
-    <div class="container">
-        <div class="multi-user-indicator">
-            <i class="fas fa-users"></i>
-            <span>3 users currently active in this venue</span>
-        </div>
-
-        <div class="stats">
-            <div class="stat-card">
-                <i class="fas fa-wine-bottle"></i>
-                <h3 id="totalProducts">142</h3>
-                <p>Total Products</p>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-exclamation-triangle"></i>
-                <h3 id="lowStockItems">18</h3>
-                <p>Low Stock Items</p>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-check-circle"></i>
-                <h3 id="inventoryAccuracy">94%</h3>
-                <p>Inventory Accuracy</p>
-            </div>
-        </div>
-
-        <div class="dashboard">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Quick Actions</h2>
-                </div>
-                <div class="action-buttons" style="flex-direction: column;">
-                    <button class="btn btn-primary" id="startStocktake">
-                        <i class="fas fa-clipboard-list"></i> Start Stocktake
-                    </button>
-                    <button class="btn btn-success" id="addProduct">
-                        <i class="fas fa-plus"></i> Add Product
-                    </button>
-                    <button class="btn btn-primary" id="bulkUploadBtn">
-                        <i class="fas fa-file-upload"></i> Bulk Upload
-                    </button>
-                    <button class="btn btn-primary" id="exportReport">
-                        <i class="fas fa-file-export"></i> Export Report
-                    </button>
-                </div>
-
-                <div class="card-header" style="margin-top: 20px;">
-                    <h2>Venue Selection</h2>
-                </div>
-                <div class="form-group">
-                    <select id="venueSelector" class="form-control">
-                        <option value="1">Downtown Bar</option>
-                        <option value="2">Rooftop Lounge</option>
-                        <option value="3">Pool Bar</option>
-                    </select>
-                </div>
-
-                <div class="card-header" style="margin-top: 20px;">
-                    <h2>Area Selection</h2>
-                </div>
-                <div class="form-group">
-                    <select id="areaSelector" class="form-control">
-                        <option value="1">Main Bar</option>
-                        <option value="2">Storage Room</option>
-                        <option value="3">Wine Cellar</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h2>Inventory Overview</h2>
-                    <div class="search-bar">
-                        <input type="text" id="searchInput" placeholder="Search products...">
-                        <button id="searchBtn"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-                <table class="inventory-table">
-                    <thead>
-                        <tr>
-                            <th>Product Name</th>
-                            <th>Category</th>
-                            <th>Current Stock</th>
-                            <th>Par Level</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="inventoryTableBody">
-                        <!-- Inventory items will be populated here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="scanner-section">
-            <h2>Quick Stocktake with Barcode Scanner</h2>
-            <p>Scan barcodes to quickly update inventory counts</p>
-            <div class="scanner" id="barcodeScanner">
-                <i class="fas fa-barcode"></i>
-                <p>Click to simulate barcode scan</p>
-            </div>
-            <div class="action-buttons">
-                <button class="btn btn-primary" id="openCamera">
-                    <i class="fas fa-camera"></i> Open Camera
-                </button>
-                <button class="btn btn-success" id="uploadCSV">
-                    <i class="fas fa-upload"></i> Upload CSV
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Product Modal -->
-    <div class="modal" id="addProductModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Add New Product</h2>
-                <span class="close" id="closeProductModal">&times;</span>
-            </div>
-            <form id="productForm">
-                <div class="form-group">
-                    <label for="productName">Product Name</label>
-                    <input type="text" id="productName" required>
-                </div>
-                <div class="form-group">
-                    <label for="productCategory">Category</label>
-                    <select id="productCategory" required>
-                        <option value="">Select Category</option>
-                        <option value="Whiskey">Whiskey</option>
-                        <option value="Vodka">Vodka</option>
-                        <option value="Gin">Gin</option>
-                        <option value="Rum">Rum</option>
-                        <option value="Tequila">Tequila</option>
-                        <option value="Beer">Beer</option>
-                        <option value="Wine">Wine</option>
-                        <option value="Mixers">Mixers</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="productStock">Current Stock</label>
-                    <input type="number" id="productStock" required min="0">
-                </div>
-                <div class="form-group">
-                    <label for="productPar">Par Level</label>
-                    <input type="number" id="productPar" required min="1">
-                </div>
-                <div class="form-group">
-                    <label for="productBarcode">Barcode (optional)</label>
-                    <input type="text" id="productBarcode">
-                </div>
-                <div class="form-group">
-                    <label for="productCost">Cost per Unit ($)</label>
-                    <input type="number" id="productCost" step="0.01" min="0">
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-danger" id="cancelProduct">Cancel</button>
-                    <button type="submit" class="btn btn-success">Add Product</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Settings Modal -->
-    <div class="modal" id="settingsModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>System Settings</h2>
-                <span class="close" id="closeSettingsModal">&times;</span>
-            </div>
-            <div class="tabs">
-                <div class="tab active" data-tab="venues">Venues</div>
-                <div class="tab" data-tab="users">Users</div>
-                <div class="tab" data-tab="areas">Areas</div>
-            </div>
-            
-            <div class="tab-content active" id="venues-tab">
-                <div class="card-header">
-                    <h3>Manage Venues</h3>
-                    <button class="btn btn-success" id="addVenueBtn">
-                        <i class="fas fa-plus"></i> Add Venue
-                    </button>
-                </div>
-                <div class="venue-list" id="venueList">
-                    <!-- Venues will be populated here -->
-                </div>
-            </div>
-            
-            <div class="tab-content" id="users-tab">
-                <div class="card-header">
-                    <h3>Manage Users</h3>
-                    <button class="btn btn-success" id="addUserBtn">
-                        <i class="fas fa-plus"></i> Add User
-                    </button>
-                </div>
-                <div class="user-list" id="userList">
-                    <!-- Users will be populated here -->
-                </div>
-            </div>
-            
-            <div class="tab-content" id="areas-tab">
-                <div class="card-header">
-                    <h3>Manage Areas</h3>
-                    <button class="btn btn-success" id="addAreaBtn">
-                        <i class="fas fa-plus"></i> Add Area
-                    </button>
-                </div>
-                <div class="area-list" id="areaList">
-                    <!-- Areas will be populated here -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bulk Upload Modal -->
-    <div class="modal" id="bulkUploadModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Bulk Upload Products</h2>
-                <span class="close" id="closeBulkUploadModal">&times;</span>
-            </div>
-            <div class="form-group">
-                <label for="uploadFile">Select CSV File</label>
-                <input type="file" id="uploadFile" accept=".csv">
-                <p style="margin-top: 10px; font-size: 0.9rem; color: #7f8c8d;">
-                    CSV format: Name,Category,Stock,Par Level,Barcode,Cost
-                </p>
-            </div>
-            <div class="form-actions">
-                <button type="button" class="btn btn-danger" id="cancelUpload">Cancel</button>
-                <button type="button" class="btn btn-success" id="processUpload">Process Upload</button>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <div class="container">
-            <p>BarStock Pro Inventory Management System &copy; 2023 | Multi-Venue & Multi-User Support</p>
-        </div>
-    </footer>
-
-    <script>
-        // Sample data
-        let inventoryData = [
-            { id: 1, name: "Jameson Irish Whiskey", category: "Whiskey", stock: 3, parLevel: 12, barcode: "123456789", cost: 25.50 },
-            { id: 2, name: "Bombay Sapphire Gin", category: "Gin", stock: 15, parLevel: 10, barcode: "234567890", cost: 28.75 },
-            { id: 3, name: "Patrón Silver Tequila", category: "Tequila", stock: 8, parLevel: 8, barcode: "345678901", cost: 45.00 },
-            { id: 4, name: "Grey Goose Vodka", category: "Vodka", stock: 2, parLevel: 10, barcode: "456789012", cost: 32.25 },
-            { id: 5, name: "Captain Morgan Spiced Rum", category: "Rum", stock: 12, parLevel: 8, barcode: "567890123", cost: 18.50 }
-        ];
-
-        let venues = [
-            { id: 1, name: "Downtown Bar", address: "123 Main St", manager: "John Smith" },
-            { id: 2, name: "Rooftop Lounge", address: "456 High St", manager: "Sarah Johnson" },
-            { id: 3, name: "Pool Bar", address: "789 Beach Rd", manager: "Mike Davis" }
-        ];
-
-        let users = [
-            { id: 1, name: "Admin User", email: "admin@barstock.com", role: "Administrator", status: "Active" },
-            { id: 2, name: "Manager One", email: "manager1@barstock.com", role: "Manager", status: "Active" },
-            { id: 3, name: "Staff User", email: "staff@barstock.com", role: "Staff", status: "Active" }
-        ];
-
-        let areas = [
-            { id: 1, name: "Main Bar", venue: "Downtown Bar", description: "Primary serving area" },
-            { id: 2, name: "Storage Room", venue: "Downtown Bar", description: "Backstock storage" },
-            { id: 3, name: "Wine Cellar", venue: "Downtown Bar", description: "Temperature controlled wine storage" }
-        ];
-
-        // DOM Elements
-        const addProductBtn = document.getElementById('addProduct');
-        const addProductModal = document.getElementById('addProductModal');
-        const settingsBtn = document.getElementById('settingsBtn');
-        const settingsModal = document.getElementById('settingsModal');
-        const bulkUploadBtn = document.getElementById('bulkUploadBtn');
-        const bulkUploadModal = document.getElementById('bulkUploadModal');
-        const closeProductModal = document.getElementById('closeProductModal');
-        const closeSettingsModal = document.getElementById('closeSettingsModal');
-        const closeBulkUploadModal = document.getElementById('closeBulkUploadModal');
-        const cancelProduct = document.getElementById('cancelProduct');
-        const cancelUpload = document.getElementById('cancelUpload');
-        const productForm = document.getElementById('productForm');
-        const inventoryTableBody = document.getElementById('inventoryTableBody');
-        const venueList = document.getElementById('venueList');
-        const userList = document.getElementById('userList');
-        const areaList = document.getElementById('areaList');
-        const addVenueBtn = document.getElementById('addVenueBtn');
-        const addUserBtn = document.getElementById('addUserBtn');
-        const addAreaBtn = document.getElementById('addAreaBtn');
-        const tabs = document.querySelectorAll('.tab');
-        const processUpload = document.getElementById('processUpload');
-        const barcodeScanner = document.getElementById('barcodeScanner');
-        const openCamera = document.getElementById('openCamera');
-        const uploadCSV = document.getElementById('uploadCSV');
-        const startStocktake = document.getElementById('startStocktake');
-        const exportReport = document.getElementById('exportReport');
-        const searchBtn = document.getElementById('searchBtn');
-        const searchInput = document.getElementById('searchInput');
-
-        // Initialize the application
-        function init() {
-            renderInventoryTable();
-            renderVenues();
-            renderUsers();
-            renderAreas();
-            updateStats();
-            
-            // Set up event listeners
-            setupEventListeners();
-        }
-
-        // Set up all event listeners
-        function setupEventListeners() {
-            // Modal open/close
-            addProductBtn.addEventListener('click', () => toggleModal(addProductModal));
-            settingsBtn.addEventListener('click', () => toggleModal(settingsModal));
-            bulkUploadBtn.addEventListener('click', () => toggleModal(bulkUploadModal));
-            
-            // Close modal buttons
-            closeProductModal.addEventListener('click', () => toggleModal(addProductModal));
-            closeSettingsModal.addEventListener('click', () => toggleModal(settingsModal));
-            closeBulkUploadModal.addEventListener('click', () => toggleModal(bulkUploadModal));
-            
-            // Cancel buttons
-            cancelProduct.addEventListener('click', () => toggleModal(addProductModal));
-            cancelUpload.addEventListener('click', () => toggleModal(bulkUploadModal));
-            
-            // Form submission
-            productForm.addEventListener('submit', handleProductSubmit);
-            
-            // Tabs
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabId = tab.getAttribute('data-tab');
-                    activateTab(tabId);
-                });
-            });
-            
-            // Buttons
-            processUpload.addEventListener('click', handleBulkUpload);
-            barcodeScanner.addEventListener('click', simulateBarcodeScan);
-            openCamera.addEventListener('click', openCameraScanner);
-            uploadCSV.addEventListener('click', () => toggleModal(bulkUploadModal));
-            startStocktake.addEventListener('click', startStocktakeSession);
-            exportReport.addEventListener('click', exportInventoryReport);
-            searchBtn.addEventListener('click', handleSearch);
-            searchInput.addEventListener('keyup', (e) => {
-                if (e.key === 'Enter') handleSearch();
-            });
-            
-            // Add new items
-            addVenueBtn.addEventListener('click', () => addNewItem('venue'));
-            addUserBtn.addEventListener('click', () => addNewItem('user'));
-            addAreaBtn.addEventListener('click', () => addNewItem('area'));
-        }
-
-        // Modal functions
-        function toggleModal(modal) {
-            if (modal.style.display === 'flex') {
-                modal.style.display = 'none';
-            } else {
-                modal.style.display = 'flex';
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        
+        // Authentication configuration
+        const ADMIN_CREDENTIALS = {
+            username: 'suraj',
+            password: 'cocktail123'
+        };
+        
+        // Cloud storage configuration
+        const CLOUD_STORAGE_URL = 'https://jsonbin.io/v3/b'; // Using JSONBin as cloud storage
+        const API_KEY = '$2a$10$6H/pfADM7sH1yC5B8n8Q0.Q8X8z8X8z8X8z8X8z8X8z8X8z8X8z8X8'; // Demo API key
+        
+        // Load data from localStorage or use defaults
+        const loadFromStorage = (key, defaultValue) => {
+            try {
+                const item = localStorage.getItem(key);
+                return item ? JSON.parse(item) : defaultValue;
+            } catch {
+                return defaultValue;
             }
-        }
-
-        function activateTab(tabId) {
-            // Deactivate all tabs
-            tabs.forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
-            // Activate selected tab
-            document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
-            document.getElementById(`${tabId}-tab`).classList.add('active');
-        }
-
-        // Render functions
-        function renderInventoryTable() {
-            inventoryTableBody.innerHTML = '';
-            
-            inventoryData.forEach(item => {
-                const status = getStockStatus(item.stock, item.parLevel);
-                const statusClass = status === 'Low' ? 'low' : status === 'Medium' ? 'medium' : 'high';
+        };
+        
+        const saveToStorage = (key, value) => {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+                return true;
+            } catch (error) {
+                console.error('Error saving to localStorage:', error);
+                return false;
+            }
+        };
+        
+        // Cloud storage functions
+        const saveToCloud = async (data) => {
+            try {
+                const response = await fetch(CLOUD_STORAGE_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': API_KEY,
+                    },
+                    body: JSON.stringify(data)
+                });
                 
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${item.name}</td>
-                    <td>${item.category}</td>
-                    <td class="${item.stock < item.parLevel * 0.3 ? 'low-stock' : 'good-stock'}">${item.stock}</td>
-                    <td>${item.parLevel}</td>
-                    <td><span class="stock-level ${statusClass}">${status} Stock</span></td>
-                    <td>
-                        <button class="btn btn-primary edit-product" data-id="${item.id}" style="padding: 5px 10px; font-size: 0.8rem;">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-danger delete-product" data-id="${item.id}" style="padding: 5px 10px; font-size: 0.8rem;">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                `;
-                inventoryTableBody.appendChild(row);
-            });
-            
-            // Add event listeners to edit and delete buttons
-            document.querySelectorAll('.edit-product').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const productId = e.currentTarget.getAttribute('data-id');
-                    editProduct(productId);
+                if (response.ok) {
+                    const result = await response.json();
+                    // Save the bin ID for future updates
+                    localStorage.setItem('cocktailCloudId', result.metadata.id);
+                    return { success: true, id: result.metadata.id };
+                } else {
+                    throw new Error('Failed to save to cloud');
+                }
+            } catch (error) {
+                console.error('Error saving to cloud:', error);
+                return { success: false, error: error.message };
+            }
+        };
+        
+        const loadFromCloud = async () => {
+            try {
+                const cloudId = localStorage.getItem('cocktailCloudId');
+                if (!cloudId) return null;
+                
+                const response = await fetch(`${CLOUD_STORAGE_URL}/${cloudId}/latest`, {
+                    headers: {
+                        'X-Master-Key': API_KEY,
+                    }
                 });
-            });
-            
-            document.querySelectorAll('.delete-product').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const productId = e.currentTarget.getAttribute('data-id');
-                    deleteProduct(productId);
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    return result.record;
+                } else {
+                    throw new Error('Failed to load from cloud');
+                }
+            } catch (error) {
+                console.error('Error loading from cloud:', error);
+                return null;
+            }
+        };
+        
+        const updateCloudData = async (data) => {
+            try {
+                const cloudId = localStorage.getItem('cocktailCloudId');
+                if (!cloudId) {
+                    return await saveToCloud(data);
+                }
+                
+                const response = await fetch(`${CLOUD_STORAGE_URL}/${cloudId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': API_KEY,
+                    },
+                    body: JSON.stringify(data)
                 });
+                
+                if (response.ok) {
+                    return { success: true };
+                } else {
+                    throw new Error('Failed to update cloud data');
+                }
+            } catch (error) {
+                console.error('Error updating cloud data:', error);
+                return { success: false, error: error.message };
+            }
+        };
+        
+        // Data management functions
+        const getRecipes = () => {
+            return loadFromStorage('cocktailRecipes', []);
+        };
+        
+        const saveRecipes = async (recipes) => {
+            // Save to localStorage
+            const localSuccess = saveToStorage('cocktailRecipes', recipes);
+            
+            // Save to cloud if user is admin
+            const user = JSON.parse(localStorage.getItem('cocktailAppUser') || '{}');
+            if (user.isAdmin) {
+                const cloudData = {
+                    recipes: recipes,
+                    syrups: getSyrups(),
+                    settings: getSettings(),
+                    lastUpdated: new Date().toISOString()
+                };
+                
+                const cloudResult = await updateCloudData(cloudData);
+                return { 
+                    localSuccess, 
+                    cloudSuccess: cloudResult.success,
+                    cloudError: cloudResult.error
+                };
+            }
+            
+            return { localSuccess, cloudSuccess: false };
+        };
+        
+        const getSyrups = () => {
+            return loadFromStorage('cocktailSyrups', []);
+        };
+        
+        const saveSyrups = async (syrups) => {
+            // Save to localStorage
+            const localSuccess = saveToStorage('cocktailSyrups', syrups);
+            
+            // Save to cloud if user is admin
+            const user = JSON.parse(localStorage.getItem('cocktailAppUser') || '{}');
+            if (user.isAdmin) {
+                const cloudData = {
+                    recipes: getRecipes(),
+                    syrups: syrups,
+                    settings: getSettings(),
+                    lastUpdated: new Date().toISOString()
+                };
+                
+                const cloudResult = await updateCloudData(cloudData);
+                return { 
+                    localSuccess, 
+                    cloudSuccess: cloudResult.success,
+                    cloudError: cloudResult.error
+                };
+            }
+            
+            return { localSuccess, cloudSuccess: false };
+        };
+        
+        const getSettings = () => {
+            return loadFromStorage('cocktailSettings', {
+                spirit_types: ['Gin', 'Vodka', 'Rum', 'Tequila', 'Whiskey', 'Brandy'],
+                glass_types: ['Coupe', 'Martini', 'Highball', 'Old Fashioned', 'Collins', 'Margarita'],
+                venues: ['Main Bar', 'Pool Bar', 'Restaurant', 'Private Event']
             });
-        }
+        };
+        
+        const saveSettings = async (settings) => {
+            // Save to localStorage
+            const localSuccess = saveToStorage('cocktailSettings', settings);
+            
+            // Save to cloud if user is admin
+            const user = JSON.parse(localStorage.getItem('cocktailAppUser') || '{}');
+            if (user.isAdmin) {
+                const cloudData = {
+                    recipes: getRecipes(),
+                    syrups: getSyrups(),
+                    settings: settings,
+                    lastUpdated: new Date().toISOString()
+                };
+                
+                const cloudResult = await updateCloudData(cloudData);
+                return { 
+                    localSuccess, 
+                    cloudSuccess: cloudResult.success,
+                    cloudError: cloudResult.error
+                };
+            }
+            
+            return { localSuccess, cloudSuccess: false };
+        };
+        
+        // Sync data from cloud
+        const syncFromCloud = async () => {
+            try {
+                const cloudData = await loadFromCloud();
+                if (cloudData) {
+                    // Update local storage with cloud data
+                    saveToStorage('cocktailRecipes', cloudData.recipes || []);
+                    saveToStorage('cocktailSyrups', cloudData.syrups || []);
+                    saveToStorage('cocktailSettings', cloudData.settings || getSettings());
+                    
+                    return { success: true, data: cloudData };
+                }
+                return { success: false, error: 'No cloud data found' };
+            } catch (error) {
+                console.error('Error syncing from cloud:', error);
+                return { success: false, error: error.message };
+            }
+        };
 
-        function renderVenues() {
-            venueList.innerHTML = '';
-            
-            venues.forEach(venue => {
-                const venueItem = document.createElement('div');
-                venueItem.className = 'venue-item';
-                venueItem.innerHTML = `
-                    <div>
-                        <h4>${venue.name}</h4>
-                        <p>${venue.address} | Manager: ${venue.manager}</p>
-                    </div>
-                    <div class="item-actions">
-                        <button class="btn btn-primary edit-venue" data-id="${venue.id}">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-danger delete-venue" data-id="${venue.id}">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                `;
-                venueList.appendChild(venueItem);
-            });
-            
-            // Add event listeners to venue buttons
-            document.querySelectorAll('.edit-venue').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const venueId = e.currentTarget.getAttribute('data-id');
-                    editVenue(venueId);
-                });
-            });
-            
-            document.querySelectorAll('.delete-venue').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const venueId = e.currentTarget.getAttribute('data-id');
-                    deleteVenue(venueId);
-                });
-            });
-        }
+        // Initialize data
+        let mockRecipes = getRecipes();
+        let mockSyrups = getSyrups();
+        let mockSettings = getSettings();
 
-        function renderUsers() {
-            userList.innerHTML = '';
-            
-            users.forEach(user => {
-                const userItem = document.createElement('div');
-                userItem.className = 'user-item';
-                userItem.innerHTML = `
-                    <div>
-                        <h4>${user.name}</h4>
-                        <p>${user.email} | ${user.role} | Status: ${user.status}</p>
-                    </div>
-                    <div class="item-actions">
-                        <button class="btn btn-primary edit-user" data-id="${user.id}">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-danger delete-user" data-id="${user.id}">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                `;
-                userList.appendChild(userItem);
+        // Utility function to convert image to base64
+        const convertImageToBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
             });
-            
-            // Add event listeners to user buttons
-            document.querySelectorAll('.edit-user').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const userId = e.currentTarget.getAttribute('data-id');
-                    editUser(userId);
-                });
-            });
-            
-            document.querySelectorAll('.delete-user').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const userId = e.currentTarget.getAttribute('data-id');
-                    deleteUser(userId);
-                });
-            });
-        }
+        };
 
-        function renderAreas() {
-            areaList.innerHTML = '';
+        // Authentication Hook
+        function useAuth() {
+            const [user, setUser] = useState(null);
             
-            areas.forEach(area => {
-                const areaItem = document.createElement('div');
-                areaItem.className = 'area-item';
-                areaItem.innerHTML = `
-                    <div>
-                        <h4>${area.name}</h4>
-                        <p>${area.venue} | ${area.description}</p>
-                    </div>
-                    <div class="item-actions">
-                        <button class="btn btn-primary edit-area" data-id="${area.id}">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-danger delete-area" data-id="${area.id}">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                `;
-                areaList.appendChild(areaItem);
-            });
+            useEffect(() => {
+                // Check if user is logged in from localStorage
+                const savedUser = localStorage.getItem('cocktailAppUser');
+                if (savedUser) {
+                    setUser(JSON.parse(savedUser));
+                }
+            }, []);
             
-            // Add event listeners to area buttons
-            document.querySelectorAll('.edit-area').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const areaId = e.currentTarget.getAttribute('data-id');
-                    editArea(areaId);
-                });
-            });
-            
-            document.querySelectorAll('.delete-area').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const areaId = e.currentTarget.getAttribute('data-id');
-                    deleteArea(areaId);
-                });
-            });
-        }
-
-        // Helper functions
-        function getStockStatus(stock, parLevel) {
-            const percentage = stock / parLevel;
-            if (percentage < 0.3) return 'Low';
-            if (percentage < 0.7) return 'Medium';
-            return 'High';
-        }
-
-        function updateStats() {
-            const totalProducts = inventoryData.length;
-            const lowStockItems = inventoryData.filter(item => item.stock < item.parLevel * 0.3).length;
-            const inventoryAccuracy = 94; // This would be calculated in a real app
-            
-            document.getElementById('totalProducts').textContent = totalProducts;
-            document.getElementById('lowStockItems').textContent = lowStockItems;
-            document.getElementById('inventoryAccuracy').textContent = `${inventoryAccuracy}%`;
-        }
-
-        // Event handlers
-        function handleProductSubmit(e) {
-            e.preventDefault();
-            
-            const newProduct = {
-                id: inventoryData.length + 1,
-                name: document.getElementById('productName').value,
-                category: document.getElementById('productCategory').value,
-                stock: parseInt(document.getElementById('productStock').value),
-                parLevel: parseInt(document.getElementById('productPar').value),
-                barcode: document.getElementById('productBarcode').value,
-                cost: parseFloat(document.getElementById('productCost').value) || 0
+            const login = (username, password) => {
+                if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                    const userData = { username, isAdmin: true };
+                    setUser(userData);
+                    localStorage.setItem('cocktailAppUser', JSON.stringify(userData));
+                    return true;
+                }
+                return false;
             };
             
-            inventoryData.push(newProduct);
-            renderInventoryTable();
-            updateStats();
-            toggleModal(addProductModal);
-            productForm.reset();
+            const loginAsGuest = () => {
+                const guestUser = { username: 'Guest', isAdmin: false };
+                setUser(guestUser);
+                localStorage.setItem('cocktailAppUser', JSON.stringify(guestUser));
+                return true;
+            };
             
-            alert('Product added successfully!');
-        }
-
-        function handleBulkUpload() {
-            const fileInput = document.getElementById('uploadFile');
-            if (!fileInput.files.length) {
-                alert('Please select a file to upload');
-                return;
-            }
+            const logout = () => {
+                setUser(null);
+                localStorage.removeItem('cocktailAppUser');
+            };
             
-            // In a real application, you would process the CSV file here
-            // For this demo, we'll just simulate adding some products
-            const newProducts = [
-                { id: inventoryData.length + 1, name: "Jack Daniels", category: "Whiskey", stock: 7, parLevel: 10, barcode: "678901234", cost: 28.50 },
-                { id: inventoryData.length + 2, name: "Tanqueray Gin", category: "Gin", stock: 9, parLevel: 8, barcode: "789012345", cost: 30.25 }
-            ];
+            return { user, login, loginAsGuest, logout };
+        }
+
+        // Hamburger Menu Component
+        function HamburgerMenu({ isOpen, onToggle, currentPage, onNavigate, isAdmin }) {
+            const menuRef = useRef(null);
             
-            newProducts.forEach(product => inventoryData.push(product));
-            renderInventoryTable();
-            updateStats();
-            toggleModal(bulkUploadModal);
-            fileInput.value = '';
+            useEffect(() => {
+                const handleClickOutside = (event) => {
+                    if (menuRef.current && !menuRef.current.contains(event.target) && 
+                        !event.target.closest('.menu-button')) {
+                        onToggle(false);
+                    }
+                };
+                
+                if (isOpen) {
+                    document.addEventListener('mousedown', handleClickOutside);
+                    document.addEventListener('touchstart', handleClickOutside);
+                }
+                
+                return () => {
+                    document.removeEventListener('mousedown', handleClickOutside);
+                    document.removeEventListener('touchstart', handleClickOutside);
+                };
+            }, [isOpen, onToggle]);
             
-            alert('Bulk upload completed! 2 new products added.');
-        }
-
-        function simulateBarcodeScan() {
-            // In a real app, this would interface with a barcode scanner
-            // For demo purposes, we'll simulate scanning a product
-            const randomProduct = inventoryData[Math.floor(Math.random() * inventoryData.length)];
-            alert(`Barcode scanned! Product: ${randomProduct.name}. Current stock: ${randomProduct.stock}`);
+            const handleNavigation = (page) => {
+                onNavigate(page);
+                onToggle(false);
+            };
             
-            // Update stock count (simulating a scan that reduces stock by 1)
-            randomProduct.stock = Math.max(0, randomProduct.stock - 1);
-            renderInventoryTable();
-            updateStats();
+            return (
+                <>
+                    <div className={`side-menu-overlay ${isOpen ? 'active' : ''}`} />
+                    <div ref={menuRef} className={`side-menu ${isOpen ? 'active' : ''}`}>
+                        <div className="side-menu-header">
+                            <div className="side-menu-logo">🍸</div>
+                            <div className="side-menu-title">Cocktail Manual</div>
+                        </div>
+                        
+                        <nav className="side-menu-nav">
+                            <button 
+                                className={`side-menu-button ${currentPage === 'home' ? 'active' : ''}`}
+                                onClick={() => handleNavigation('home')}
+                            >
+                                📖 Cocktail Menu
+                            </button>
+                            
+                            <button 
+                                className={`side-menu-button ${currentPage === 'create-recipe' ? 'active' : ''} ${
+                                    !isAdmin ? 'disabled' : ''
+                                }`}
+                                onClick={() => isAdmin && handleNavigation('create-recipe')}
+                                title={!isAdmin ? 'Admin access required' : ''}
+                            >
+                                ➕ Add Recipe
+                            </button>
+                            
+                            <button 
+                                className={`side-menu-button ${currentPage === 'syrups' ? 'active' : ''}`}
+                                onClick={() => handleNavigation('syrups')}
+                            >
+                                🧪 Syrups & Infusions
+                            </button>
+                            
+                            <button 
+                                className={`side-menu-button ${currentPage === 'settings' ? 'active' : ''} ${
+                                    !isAdmin ? 'disabled' : ''
+                                }`}
+                                onClick={() => isAdmin && handleNavigation('settings')}
+                                title={!isAdmin ? 'Admin access required' : ''}
+                            >
+                                ⚙️ Settings
+                            </button>
+                        </nav>
+                    </div>
+                </>
+            );
         }
 
-        function openCameraScanner() {
-            alert('Camera opened for barcode scanning. In a real app, this would access your device camera.');
+        // Recipe Card Component
+        function RecipeCard({ recipe, onClick, isAdmin }) {
+            const imageStyle = {
+                backgroundImage: recipe.image_url ? `url(${recipe.image_url})` : 'none',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+            };
+            
+            return (
+                <div className="recipe-card" onClick={() => onClick(recipe)}>
+                    <div className="recipe-image" style={imageStyle}>
+                        {!recipe.image_url && 'No Image'}
+                    </div>
+                    <div className="recipe-info">
+                        <div className="recipe-name">{recipe.name}</div>
+                        <div className="recipe-spirit">{recipe.spirit_type}</div>
+                    </div>
+                </div>
+            );
         }
 
-        function startStocktakeSession() {
-            alert('Starting new stocktake session... All users in this venue will be notified.');
+        // View Recipe Component
+        function ViewRecipePage({ recipe, onBack, onScale, isAdmin, onDeleteRecipe, onEditRecipe }) {
+            const backgroundStyle = {
+                backgroundImage: recipe.image_url ? `url(${recipe.image_url})` : 'none',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+            };
+            
+            return (
+                <div className="container">
+                    <button className="button button-secondary" onClick={onBack}>
+                        ← Back to Cocktails
+                    </button>
+                    
+                    <div className="recipe-view">
+                        {recipe.image_url && (
+                            <div className="recipe-background" style={backgroundStyle}></div>
+                        )}
+                        
+                        <div className="recipe-content">
+                            <div className="recipe-header">
+                                <div>
+                                    <h1 className="recipe-title">{recipe.name}</h1>
+                                    <div className="recipe-meta">
+                                        <div className="meta-item">{recipe.spirit_type}</div>
+                                        <div className="meta-item">{recipe.glass_type} Glass</div>
+                                        <div className="meta-item">{recipe.abv}% ABV</div>
+                                        <div className="meta-item">${recipe.pour_cost} Cost</div>
+                                        <div className="meta-item">{recipe.venue}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="recipe-details">
+                                <div>
+                                    <h3 style={{color: '#FFB366', marginBottom: '1rem'}}>Ingredients</h3>
+                                    <ul className="ingredients-list">
+                                        {recipe.ingredients.map((ingredient, index) => (
+                                            <li key={index} className="ingredient-item">
+                                                <span>{ingredient.name}</span>
+                                                <span>{ingredient.amount} {ingredient.unit}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <h3 style={{color: '#FFB366', marginBottom: '1rem'}}>Instructions</h3>
+                                    <div className="instructions">{recipe.instructions}</div>
+                                    
+                                    {recipe.notes && (
+                                        <>
+                                            <h3 style={{color: '#FFB366', marginBottom: '1rem', marginTop: '1.5rem'}}>Notes</h3>
+                                            <div className="instructions">{recipe.notes}</div>
+                                        </>
+                                    )}
+                                    
+                                    <div className="action-buttons">
+                                        <button className="action-button scale" onClick={onScale}>
+                                            ⚖️ Scale Recipe
+                                        </button>
+                                        {isAdmin && (
+                                            <>
+                                                <button 
+                                                    className="action-button edit"
+                                                    onClick={() => {
+                                                        if (onEditRecipe) {
+                                                            onEditRecipe(recipe);
+                                                        }
+                                                    }}
+                                                >
+                                                    ✏️ Edit
+                                                </button>
+                                                <button 
+                                                    className="action-button delete"
+                                                    onClick={() => onDeleteRecipe(recipe.id)}
+                                                >
+                                                    🗑️ Delete
+                                                </button>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
         }
 
-        function exportInventoryReport() {
-            alert('Inventory report exported successfully!');
+        // Home Page Component
+        function HomePage({ onRecipeClick, onDeleteRecipe, isAdmin, onCreateRecipe, syncStatus }) {
+            const [searchTerm, setSearchTerm] = useState('');
+            const [filterSpirit, setFilterSpirit] = useState('All');
+            const [filterVenue, setFilterVenue] = useState('All');
+            const [recipes, setRecipes] = useState([]);
+            
+            // Load recipes on component mount
+            useEffect(() => {
+                setRecipes(getRecipes());
+            }, []);
+            
+            // Filter recipes based on search and filters
+            const filteredRecipes = recipes.filter(recipe => {
+                const matchesSearch = recipe.name.toLowerCase().includes(searchTerm.toLowerCase());
+                const matchesSpirit = filterSpirit === 'All' || recipe.spirit_type === filterSpirit;
+                const matchesVenue = filterVenue === 'All' || recipe.venue === filterVenue;
+                
+                return matchesSearch && matchesSpirit && matchesVenue;
+            });
+            
+            // Group recipes by first letter
+            const groupedRecipes = filteredRecipes.reduce((groups, recipe) => {
+                const firstLetter = recipe.name.charAt(0).toUpperCase();
+                if (!groups[firstLetter]) {
+                    groups[firstLetter] = [];
+                }
+                groups[firstLetter].push(recipe);
+                return groups;
+            }, {});
+            
+            // Sort the groups alphabetically
+            const sortedLetters = Object.keys(groupedRecipes).sort();
+            
+            return (
+                <div className="container">
+                    <div className="page-header">
+                        <h1 className="page-title">Cocktail Menu</h1>
+                        {isAdmin && (
+                            <button className="button" onClick={onCreateRecipe}>
+                                + Add Recipe
+                            </button>
+                        )}
+                    </div>
+                    
+                    {syncStatus && (
+                        <div className={`sync-status ${syncStatus.status}`}>
+                            {syncStatus.status === 'syncing' && '🔄 Syncing...'}
+                            {syncStatus.status === 'success' && '✅ Synced with cloud'}
+                            {syncStatus.status === 'error' && '❌ Sync failed'}
+                            {syncStatus.message && ` - ${syncStatus.message}`}
+                        </div>
+                    )}
+                    
+                    <div className="search-section">
+                        <input 
+                            type="text"
+                            className="search-box"
+                            placeholder="Search cocktails..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        
+                        <div className="filters">
+                            <select 
+                                className="filter-select"
+                                value={filterSpirit}
+                                onChange={(e) => setFilterSpirit(e.target.value)}
+                            >
+                                <option value="All">All Spirits</option>
+                                {mockSettings.spirit_types.map(spirit => (
+                                    <option key={spirit} value={spirit}>{spirit}</option>
+                                ))}
+                            </select>
+                            
+                            <select 
+                                className="filter-select"
+                                value={filterVenue}
+                                onChange={(e) => setFilterVenue(e.target.value)}
+                            >
+                                <option value="All">All Venues</option>
+                                {mockSettings.venues.map(venue => (
+                                    <option key={venue} value={venue}>{venue}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    {filteredRecipes.length === 0 ? (
+                        <div className="loading">
+                            No cocktails found matching your criteria.
+                        </div>
+                    ) : (
+                        <>
+                            {sortedLetters.map(letter => (
+                                <div key={letter} className="alphabet-section">
+                                    <h2 className="letter-header">{letter}</h2>
+                                    <div className="recipes-grid">
+                                        {groupedRecipes[letter].map(recipe => (
+                                            <RecipeCard 
+                                                key={recipe.id}
+                                                recipe={recipe}
+                                                onClick={onRecipeClick}
+                                                isAdmin={isAdmin}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </>
+                    )}
+                </div>
+            );
         }
 
-        function handleSearch() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const filteredData = inventoryData.filter(item => 
-                item.name.toLowerCase().includes(searchTerm) || 
-                item.category.toLowerCase().includes(searchTerm)
+        // Create/Edit Recipe Component
+        function CreateEditRecipePage({ recipe, onBack, onSave, isEdit = false }) {
+            const [formData, setFormData] = useState(
+                recipe || {
+                    name: '',
+                    spirit_type: '',
+                    venue: '',
+                    glass_type: '',
+                    abv: '',
+                    pour_cost: '',
+                    image_url: '',
+                    ingredients: [{ name: '', amount: '', unit: 'ml' }],
+                    instructions: '',
+                    notes: ''
+                }
             );
             
-            // Temporarily display filtered results
-            const originalData = [...inventoryData];
-            inventoryData.length = 0;
-            inventoryData.push(...filteredData);
-            renderInventoryTable();
+            const [imagePreview, setImagePreview] = useState(recipe?.image_url || '');
             
-            // Restore original data after a delay
-            setTimeout(() => {
-                inventoryData.length = 0;
-                inventoryData.push(...originalData);
-                renderInventoryTable();
-            }, 3000);
+            const handleInputChange = (e) => {
+                const { name, value } = e.target;
+                setFormData(prev => ({
+                    ...prev,
+                    [name]: value
+                }));
+            };
+            
+            const handleIngredientChange = (index, field, value) => {
+                const updatedIngredients = [...formData.ingredients];
+                updatedIngredients[index][field] = value;
+                setFormData(prev => ({
+                    ...prev,
+                    ingredients: updatedIngredients
+                }));
+            };
+            
+            const addIngredient = () => {
+                setFormData(prev => ({
+                    ...prev,
+                    ingredients: [...prev.ingredients, { name: '', amount: '', unit: 'ml' }]
+                }));
+            };
+            
+            const removeIngredient = (index) => {
+                if (formData.ingredients.length > 1) {
+                    const updatedIngredients = [...formData.ingredients];
+                    updatedIngredients.splice(index, 1);
+                    setFormData(prev => ({
+                        ...prev,
+                        ingredients: updatedIngredients
+                    }));
+                }
+            };
+            
+            const handleImageUpload = async (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    try {
+                        const base64 = await convertImageToBase64(file);
+                        setFormData(prev => ({
+                            ...prev,
+                            image_url: base64
+                        }));
+                        setImagePreview(base64);
+                    } catch (error) {
+                        console.error('Error uploading image:', error);
+                        alert('Error uploading image. Please try again.');
+                    }
+                }
+            };
+            
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                
+                // Basic validation - only require name
+                if (!formData.name) {
+                    alert('Please at least enter a cocktail name');
+                    return;
+                }
+                
+                // Create new recipe or update existing
+                const recipeData = {
+                    ...formData,
+                    id: isEdit ? formData.id : Date.now().toString(),
+                    abv: parseFloat(formData.abv) || 0,
+                    pour_cost: parseFloat(formData.pour_cost) || 0
+                };
+                
+                onSave(recipeData);
+            };
+            
+            return (
+                <div className="container">
+                    <button className="button button-secondary" onClick={onBack}>
+                        ← Back to Cocktails
+                    </button>
+                    
+                    <h1 className="page-title">{isEdit ? 'Edit Cocktail' : 'Add New Cocktail'}</h1>
+                    
+                    <form className="form" onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <label className="form-label">Cocktail Name *</label>
+                            <input
+                                type="text"
+                                className="form-input"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                        
+                        <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
+                            <div className="form-group">
+                                <label className="form-label">Spirit Type</label>
+                                <select
+                                    className="form-input"
+                                    name="spirit_type"
+                                    value={formData.spirit_type}
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="">Select Spirit</option>
+                                    {mockSettings.spirit_types.map(spirit => (
+                                        <option key={spirit} value={spirit}>{spirit}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            
+                            <div className="form-group">
+                                <label className="form-label">Venue</label>
+                                <select
+                                    className="form-input"
+                                    name="venue"
+                                    value={formData.venue}
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="">Select Venue</option>
+                                    {mockSettings.venues.map(venue => (
+                                        <option key={venue} value={venue}>{venue}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
+                            <div className="form-group">
+                                <label className="form-label">Glass Type</label>
+                                <select
+                                    className="form-input"
+                                    name="glass_type"
+                                    value={formData.glass_type}
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="">Select Glass</option>
+                                    {mockSettings.glass_types.map(glass => (
+                                        <option key={glass} value={glass}>{glass}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            
+                            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem'}}>
+                                <div className="form-group">
+                                    <label className="form-label">ABV (%)</label>
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        className="form-input"
+                                        name="abv"
+                                        value={formData.abv}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                
+                                <div className="form-group">
+                                    <label className="form-label">Pour Cost ($)</label>
+                                    <input
+                                        type="number"
+                                        step="0.01"
+                                        className="form-input"
+                                        name="pour_cost"
+                                        value={formData.pour_cost}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div className="form-group">
+                            <label className="form-label">Cocktail Image</label>
+                            <div className="image-upload">
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageUpload}
+                                    style={{display: 'none'}}
+                                    id="image-upload"
+                                />
+                                <label htmlFor="image-upload" style={{cursor: 'pointer'}}>
+                                    {imagePreview ? 'Change Image' : 'Upload Image'}
+                                </label>
+                                {imagePreview && (
+                                    <img src={imagePreview} alt="Preview" className="image-preview" />
+                                )}
+                            </div>
+                        </div>
+                        
+                        <div className="form-group">
+                            <label className="form-label">Ingredients</label>
+                            {formData.ingredients.map((ingredient, index) => (
+                                <div key={index} style={{display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', alignItems: 'center'}}>
+                                    <input
+                                        type="text"
+                                        className="form-input"
+                                        placeholder="Ingredient name"
+                                        value={ingredient.name}
+                                        onChange={(e) => handleIngredientChange(index, 'name', e.target.value)}
+                                        style={{flex: 2}}
+                                    />
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        className="form-input"
+                                        placeholder="Amount"
+                                        value={ingredient.amount}
+                                        onChange={(e) => handleIngredientChange(index, 'amount', e.target.value)}
+                                        style={{flex: 1}}
+                                    />
+                                    <select
+                                        className="form-input"
+                                        value={ingredient.unit}
+                                        onChange={(e) => handleIngredientChange(index, 'unit', e.target.value)}
+                                        style={{flex: 1}}
+                                    >
+                                        <option value="ml">ml</option>
+                                        <option value="oz">oz</option>
+                                        <option value="dash">dash</option>
+                                        <option value="piece">piece</option>
+                                        <option value="slice">slice</option>
+                                        <option value="sprig">sprig</option>
+                                    </select>
+                                    {formData.ingredients.length > 1 && (
+                                        <button
+                                            type="button"
+                                            className="icon-button delete"
+                                            onClick={() => removeIngredient(index)}
+                                        >
+                                            ×
+                                        </button>
+                                    )}
+                                </div>
+                            ))}
+                            <button type="button" className="button button-secondary" onClick={addIngredient}>
+                                + Add Ingredient
+                            </button>
+                        </div>
+                        
+                        <div className="form-group">
+                            <label className="form-label">Instructions</label>
+                            <textarea
+                                className="form-textarea"
+                                name="instructions"
+                                value={formData.instructions}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        
+                        <div className="form-group">
+                            <label className="form-label">Notes</label>
+                            <textarea
+                                className="form-textarea"
+                                name="notes"
+                                value={formData.notes}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        
+                        <div className="buttons-row">
+                            <button type="submit" className="button">
+                                {isEdit ? 'Update Cocktail' : 'Save Cocktail'}
+                            </button>
+                            <button type="button" className="button button-secondary" onClick={onBack}>
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            );
         }
 
-        function editProduct(productId) {
-            const product = inventoryData.find(item => item.id == productId);
-            if (product) {
-                document.getElementById('productName').value = product.name;
-                document.getElementById('productCategory').value = product.category;
-                document.getElementById('productStock').value = product.stock;
-                document.getElementById('productPar').value = product.parLevel;
-                document.getElementById('productBarcode').value = product.barcode;
-                document.getElementById('productCost').value = product.cost;
+        // Syrups Page Component
+        function SyrupsPage({ onSyrupClick, onCreateSyrup, onDeleteSyrup, isAdmin, syncStatus }) {
+            const [syrups, setSyrups] = useState([]);
+            
+            // Load syrups on component mount
+            useEffect(() => {
+                setSyrups(getSyrups());
+            }, []);
+            
+            return (
+                <div className="container">
+                    <h1 className="page-title">Syrups & Infusions</h1>
+                    
+                    {syncStatus && (
+                        <div className={`sync-status ${syncStatus.status}`}>
+                            {syncStatus.status === 'syncing' && '🔄 Syncing...'}
+                            {syncStatus.status === 'success' && '✅ Synced with cloud'}
+                            {syncStatus.status === 'error' && '❌ Sync failed'}
+                            {syncStatus.message && ` - ${syncStatus.message}`}
+                        </div>
+                    )}
+                    
+                    {isAdmin && (
+                        <div className="buttons-row">
+                            <button className="button" onClick={onCreateSyrup}>
+                                + Add New Syrup
+                            </button>
+                        </div>
+                    )}
+                    
+                    <div className="syrups-grid">
+                        {syrups.map(syrup => (
+                            <div key={syrup.id} className="syrup-card" onClick={() => onSyrupClick(syrup)}>
+                                <div 
+                                    className="syrup-image"
+                                    style={{
+                                        backgroundImage: syrup.image_url ? `url(${syrup.image_url})` : 'none'
+                                    }}
+                                >
+                                    {!syrup.image_url && 'No Image'}
+                                </div>
+                                <div className="syrup-name">{syrup.name}</div>
+                                <div className="syrup-cost">Cost: ${syrup.cost}</div>
+                                {isAdmin && (
+                                    <button 
+                                        className="delete-overlay"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onDeleteSyrup(syrup.id);
+                                        }}
+                                    >
+                                        🗑️
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        // View Syrup Component
+        function ViewSyrupPage({ syrup, onBack, isAdmin, onDeleteSyrup, onEditSyrup }) {
+            return (
+                <div className="container">
+                    <button className="button button-secondary" onClick={onBack}>
+                        ← Back to Syrups
+                    </button>
+                    
+                    <div className="recipe-view">
+                        <div className="recipe-header">
+                            <div>
+                                <h1 className="recipe-title">{syrup.name}</h1>
+                                <div className="recipe-meta">
+                                    <div className="meta-item">Cost: ${syrup.cost}</div>
+                                </div>
+                            </div>
+                            
+                            {isAdmin && (
+                                <div className="action-buttons">
+                                    <button 
+                                        className="action-button edit"
+                                        onClick={() => {
+                                            if (onEditSyrup) {
+                                                onEditSyrup(syrup);
+                                            }
+                                        }}
+                                    >
+                                        ✏️ Edit
+                                    </button>
+                                    <button 
+                                        className="action-button delete"
+                                        onClick={() => onDeleteSyrup(syrup.id)}
+                                    >
+                                        🗑️ Delete
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                        
+                        <div className="recipe-details">
+                            <div>
+                                <h3 style={{color: '#FFB366', marginBottom: '1rem'}}>Ingredients</h3>
+                                <ul className="ingredients-list">
+                                    {syrup.ingredients.map((ingredient, index) => (
+                                        <li key={index} className="ingredient-item">
+                                            <span>{ingredient.name}</span>
+                                            <span>{ingredient.amount} {ingredient.unit}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h3 style={{color: '#FFB366', marginBottom: '1rem'}}>Instructions</h3>
+                                <div className="instructions">{syrup.instructions}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Create/Edit Syrup Component
+        function CreateEditSyrupPage({ syrup, onBack, onSave, isEdit = false }) {
+            const [formData, setFormData] = useState(
+                syrup || {
+                    name: '',
+                    cost: '',
+                    image_url: '',
+                    ingredients: [{ name: '', amount: '', unit: 'g' }],
+                    instructions: ''
+                }
+            );
+            
+            const [imagePreview, setImagePreview] = useState(syrup?.image_url || '');
+            
+            const handleInputChange = (e) => {
+                const { name, value } = e.target;
+                setFormData(prev => ({
+                    ...prev,
+                    [name]: value
+                }));
+            };
+            
+            const handleIngredientChange = (index, field, value) => {
+                const updatedIngredients = [...formData.ingredients];
+                updatedIngredients[index][field] = value;
+                setFormData(prev => ({
+                    ...prev,
+                    ingredients: updatedIngredients
+                }));
+            };
+            
+            const addIngredient = () => {
+                setFormData(prev => ({
+                    ...prev,
+                    ingredients: [...prev.ingredients, { name: '', amount: '', unit: 'g' }]
+                }));
+            };
+            
+            const removeIngredient = (index) => {
+                if (formData.ingredients.length > 1) {
+                    const updatedIngredients = [...formData.ingredients];
+                    updatedIngredients.splice(index, 1);
+                    setFormData(prev => ({
+                        ...prev,
+                        ingredients: updatedIngredients
+                    }));
+                }
+            };
+            
+            const handleImageUpload = async (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    try {
+                        const base64 = await convertImageToBase64(file);
+                        setFormData(prev => ({
+                            ...prev,
+                            image_url: base64
+                        }));
+                        setImagePreview(base64);
+                    } catch (error) {
+                        console.error('Error uploading image:', error);
+                        alert('Error uploading image. Please try again.');
+                    }
+                }
+            };
+            
+            const handleSubmit = (e) => {
+                e.preventDefault();
                 
-                // Change form to edit mode
-                document.querySelector('#addProductModal .modal-header h2').textContent = 'Edit Product';
-                document.querySelector('#productForm button[type="submit"]').textContent = 'Update Product';
+                // Basic validation - only require name
+                if (!formData.name) {
+                    alert('Please at least enter a syrup name');
+                    return;
+                }
                 
-                // Remove existing submit listener to avoid duplicates
-                const newForm = productForm.cloneNode(true);
-                productForm.parentNode.replaceChild(newForm, productForm);
+                const syrupData = {
+                    ...formData,
+                    id: isEdit ? formData.id : Date.now().toString(),
+                    cost: parseFloat(formData.cost) || 0
+                };
                 
-                // Add update listener
-                newForm.addEventListener('submit', function updateProduct(e) {
+                onSave(syrupData);
+            };
+            
+            return (
+                <div className="container">
+                    <button className="button button-secondary" onClick={onBack}>
+                        ← Back to Syrups
+                    </button>
+                    
+                    <h1 className="page-title">{isEdit ? 'Edit Syrup' : 'Add New Syrup'}</h1>
+                    
+                    <form className="form" onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <label className="form-label">Syrup Name *</label>
+                            <input
+                                type="text"
+                                className="form-input"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                        
+                        <div className="form-group">
+                            <label className="form-label">Cost ($)</label>
+                            <input
+                                type="number"
+                                step="0.01"
+                                className="form-input"
+                                name="cost"
+                                value={formData.cost}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        
+                        <div className="form-group">
+                            <label className="form-label">Syrup Image</label>
+                            <div className="image-upload">
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageUpload}
+                                    style={{display: 'none'}}
+                                    id="syrup-image-upload"
+                                />
+                                <label htmlFor="syrup-image-upload" style={{cursor: 'pointer'}}>
+                                    {imagePreview ? 'Change Image' : 'Upload Image'}
+                                </label>
+                                {imagePreview && (
+                                    <img src={imagePreview} alt="Preview" className="image-preview" />
+                                )}
+                            </div>
+                        </div>
+                        
+                        <div className="form-group">
+                            <label className="form-label">Ingredients</label>
+                            {formData.ingredients.map((ingredient, index) => (
+                                <div key={index} style={{display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', alignItems: 'center'}}>
+                                    <input
+                                        type="text"
+                                        className="form-input"
+                                        placeholder="Ingredient name"
+                                        value={ingredient.name}
+                                        onChange={(e) => handleIngredientChange(index, 'name', e.target.value)}
+                                        style={{flex: 2}}
+                                    />
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        className="form-input"
+                                        placeholder="Amount"
+                                        value={ingredient.amount}
+                                        onChange={(e) => handleIngredientChange(index, 'amount', e.target.value)}
+                                        style={{flex: 1}}
+                                    />
+                                    <select
+                                        className="form-input"
+                                        value={ingredient.unit}
+                                        onChange={(e) => handleIngredientChange(index, 'unit', e.target.value)}
+                                        style={{flex: 1}}
+                                    >
+                                        <option value="g">g</option>
+                                        <option value="ml">ml</option>
+                                        <option value="cup">cup</option>
+                                        <option value="tsp">tsp</option>
+                                        <option value="tbsp">tbsp</option>
+                                    </select>
+                                    {formData.ingredients.length > 1 && (
+                                        <button
+                                            type="button"
+                                            className="icon-button delete"
+                                            onClick={() => removeIngredient(index)}
+                                        >
+                                            ×
+                                        </button>
+                                    )}
+                                </div>
+                            ))}
+                            <button type="button" className="button button-secondary" onClick={addIngredient}>
+                                + Add Ingredient
+                            </button>
+                        </div>
+                        
+                        <div className="form-group">
+                            <label className="form-label">Instructions</label>
+                            <textarea
+                                className="form-textarea"
+                                name="instructions"
+                                value={formData.instructions}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                        
+                        <div className="buttons-row">
+                            <button type="submit" className="button">
+                                {isEdit ? 'Update Syrup' : 'Save Syrup'}
+                            </button>
+                            <button type="button" className="button button-secondary" onClick={onBack}>
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            );
+        }
+
+        // Draggable Settings Component
+        function DraggableSettingsList({ items, onReorder, onRemove, placeholder }) {
+            const [draggedItem, setDraggedItem] = useState(null);
+            
+            const handleDragStart = (e, index) => {
+                setDraggedItem(index);
+                e.dataTransfer.effectAllowed = 'move';
+            };
+            
+            const handleDragOver = (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+            };
+            
+            const handleDrop = (e, index) => {
+                e.preventDefault();
+                if (draggedItem !== null && draggedItem !== index) {
+                    const newItems = [...items];
+                    const [removed] = newItems.splice(draggedItem, 1);
+                    newItems.splice(index, 0, removed);
+                    onReorder(newItems);
+                }
+                setDraggedItem(null);
+            };
+            
+            if (items.length === 0) {
+                return (
+                    <div style={{padding: '2rem', textAlign: 'center', color: '#666'}}>
+                        {placeholder}
+                    </div>
+                );
+            }
+            
+            return (
+                <ul className="settings-list">
+                    {items.map((item, index) => (
+                        <li 
+                            key={index}
+                            className={`settings-item ${draggedItem === index ? 'dragging' : ''}`}
+                            draggable
+                            onDragStart={(e) => handleDragStart(e, index)}
+                            onDragOver={handleDragOver}
+                            onDrop={(e) => handleDrop(e, index)}
+                        >
+                            <span>{item}</span>
+                            <div className="settings-actions">
+                                <button 
+                                    className="icon-button delete"
+                                    onClick={() => onRemove(index)}
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            );
+        }
+
+        // Settings Page Component
+        function SettingsPage({ onBack, isAdmin, syncStatus }) {
+            const [settings, setSettings] = useState(mockSettings);
+            const [newItems, setNewItems] = useState({
+                spirit_types: '',
+                glass_types: '',
+                venues: ''
+            });
+            
+            // Handle Enter key press in input fields
+            const handleKeyPress = (e, type) => {
+                if (e.key === 'Enter') {
                     e.preventDefault();
+                    handleAddItem(type);
+                }
+            };
+            
+            // Save settings whenever they change
+            useEffect(() => {
+                saveSettings(settings);
+            }, [settings]);
+            
+            const handleAddItem = (type) => {
+                const value = newItems[type].trim();
+                if (!value) {
+                    alert('Please enter a value');
+                    return;
+                }
+                
+                setSettings(prev => ({
+                    ...prev,
+                    [type]: [...prev[type], value]
+                }));
+                
+                setNewItems(prev => ({
+                    ...prev,
+                    [type]: ''
+                }));
+            };
+            
+            const handleRemoveItem = (type, index) => {
+                setSettings(prev => ({
+                    ...prev,
+                    [type]: prev[type].filter((_, i) => i !== index)
+                }));
+            };
+            
+            const handleReorderItems = (type, newItems) => {
+                setSettings(prev => ({
+                    ...prev,
+                    [type]: newItems
+                }));
+            };
+            
+            const handleInputChange = (type, value) => {
+                setNewItems(prev => ({
+                    ...prev,
+                    [type]: value
+                }));
+            };
+            
+            return (
+                <div className="container">
+                    <button className="button button-secondary" onClick={onBack}>
+                        ← Back to Cocktails
+                    </button>
                     
-                    product.name = document.getElementById('productName').value;
-                    product.category = document.getElementById('productCategory').value;
-                    product.stock = parseInt(document.getElementById('productStock').value);
-                    product.parLevel = parseInt(document.getElementById('productPar').value);
-                    product.barcode = document.getElementById('productBarcode').value;
-                    product.cost = parseFloat(document.getElementById('productCost').value) || 0;
+                    <h1 className="page-title">Settings</h1>
                     
-                    renderInventoryTable();
-                    updateStats();
-                    toggleModal(addProductModal);
-                    newForm.reset();
+                    {syncStatus && (
+                        <div className={`sync-status ${syncStatus.status}`}>
+                            {syncStatus.status === 'syncing' && '🔄 Syncing...'}
+                            {syncStatus.status === 'success' && '✅ Synced with cloud'}
+                            {syncStatus.status === 'error' && '❌ Sync failed'}
+                            {syncStatus.message && ` - ${syncStatus.message}`}
+                        </div>
+                    )}
                     
-                    alert('Product updated successfully!');
+                    {!isAdmin ? (
+                        <div className="settings-section">
+                            <p>Admin access required to modify settings.</p>
+                        </div>
+                    ) : (
+                        <>
+                            <div className="settings-section">
+                                <h3 className="settings-title">Spirit Types</h3>
+                                <div style={{display: 'flex', gap: '0.5rem', marginBottom: '1rem'}}>
+                                    <input
+                                        type="text"
+                                        className="form-input"
+                                        placeholder="Add new spirit type"
+                                        value={newItems.spirit_types}
+                                        onChange={(e) => handleInputChange('spirit_types', e.target.value)}
+                                        onKeyPress={(e) => handleKeyPress(e, 'spirit_types')}
+                                        style={{flex: 1}}
+                                    />
+                                    <button 
+                                        className="button" 
+                                        onClick={() => handleAddItem('spirit_types')}
+                                    >
+                                        Add
+                                    </button>
+                                </div>
+                                <DraggableSettingsList 
+                                    items={settings.spirit_types}
+                                    onReorder={(newItems) => handleReorderItems('spirit_types', newItems)}
+                                    onRemove={(index) => handleRemoveItem('spirit_types', index)}
+                                    placeholder="No spirit types added yet"
+                                />
+                            </div>
+                            
+                            <div className="settings-section">
+                                <h3 className="settings-title">Glass Types</h3>
+                                <div style={{display: 'flex', gap: '0.5rem', marginBottom: '1rem'}}>
+                                    <input
+                                        type="text"
+                                        className="form-input"
+                                        placeholder="Add new glass type"
+                                        value={newItems.glass_types}
+                                        onChange={(e) => handleInputChange('glass_types', e.target.value)}
+                                        onKeyPress={(e) => handleKeyPress(e, 'glass_types')}
+                                        style={{flex: 1}}
+                                    />
+                                    <button 
+                                        className="button" 
+                                        onClick={() => handleAddItem('glass_types')}
+                                    >
+                                        Add
+                                    </button>
+                                </div>
+                                <DraggableSettingsList 
+                                    items={settings.glass_types}
+                                    onReorder={(newItems) => handleReorderItems('glass_types', newItems)}
+                                    onRemove={(index) => handleRemoveItem('glass_types', index)}
+                                    placeholder="No glass types added yet"
+                                />
+                            </div>
+                            
+                            <div className="settings-section">
+                                <h3 className="settings-title">Venues</h3>
+                                <div style={{display: 'flex', gap: '0.5rem', marginBottom: '1rem'}}>
+                                    <input
+                                        type="text"
+                                        className="form-input"
+                                        placeholder="Add new venue"
+                                        value={newItems.venues}
+                                        onChange={(e) => handleInputChange('venues', e.target.value)}
+                                        onKeyPress={(e) => handleKeyPress(e, 'venues')}
+                                        style={{flex: 1}}
+                                    />
+                                    <button 
+                                        className="button" 
+                                        onClick={() => handleAddItem('venues')}
+                                    >
+                                        Add
+                                    </button>
+                                </div>
+                                <DraggableSettingsList 
+                                    items={settings.venues}
+                                    onReorder={(newItems) => handleReorderItems('venues', newItems)}
+                                    onRemove={(index) => handleRemoveItem('venues', index)}
+                                    placeholder="No venues added yet"
+                                />
+                            </div>
+                        </>
+                    )}
+                </div>
+            );
+        }
+
+        // Login Page Component
+        function LoginPage({ onLogin, onGuestLogin }) {
+            const [username, setUsername] = useState('');
+            const [password, setPassword] = useState('');
+            const [error, setError] = useState('');
+            
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (onLogin(username, password)) {
+                    setError('');
+                } else {
+                    setError('Invalid credentials');
+                }
+            };
+            
+            return (
+                <div className="container">
+                    <div className="form" style={{maxWidth: '400px', marginTop: '4rem'}}>
+                        <h1 className="page-title" style={{textAlign: 'center'}}>Cocktail Manual</h1>
+                        
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <label className="form-label">Username</label>
+                                <input 
+                                    type="text"
+                                    className="form-input"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            
+                            <div className="form-group">
+                                <label className="form-label">Password</label>
+                                <input 
+                                    type="password"
+                                    className="form-input"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            
+                            {error && (
+                                <div style={{color: '#ff6b6b', marginBottom: '1rem', textAlign: 'center'}}>
+                                    {error}
+                                </div>
+                            )}
+                            
+                            <div className="buttons-row">
+                                <button type="submit" className="button">
+                                    Login
+                                </button>
+                                <button 
+                                    type="button" 
+                                    className="button button-secondary"
+                                    onClick={onGuestLogin}
+                                >
+                                    Continue as Guest
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
+        // Scale Modal Component
+        function ScaleModal({ recipe, onClose }) {
+            const [scaleMethod, setScaleMethod] = useState('servings');
+            const [quantity, setQuantity] = useState(1);
+            const [volumeUnit, setVolumeUnit] = useState('ml');
+            const [dilution, setDilution] = useState('0');
+            const [customDilution, setCustomDilution] = useState('');
+            
+            // Calculate total volume of original recipe in ml
+            const calculateOriginalVolume = () => {
+                return recipe.ingredients.reduce((total, ingredient) => {
+                    if (ingredient.unit === 'ml') {
+                        return total + parseFloat(ingredient.amount);
+                    } else if (ingredient.unit === 'oz') {
+                        return total + (parseFloat(ingredient.amount) * 29.5735);
+                    }
+                    return total;
+                }, 0);
+            };
+            
+            // Convert units to ml
+            const convertToMl = (amount, unit) => {
+                switch(unit) {
+                    case 'oz': return amount * 29.5735;
+                    case 'l': return amount * 1000;
+                    case 'gal': return amount * 3785.41;
+                    default: return amount; // ml
+                }
+            };
+            
+            // Calculate scaled ingredients
+            const calculateScaledIngredients = () => {
+                const originalVolume = calculateOriginalVolume();
+                let scaleFactor;
+                let servings = 1;
+                
+                if (scaleMethod === 'servings') {
+                    scaleFactor = quantity;
+                    servings = quantity;
+                } else {
+                    // Scale by volume
+                    const targetVolume = convertToMl(quantity, volumeUnit);
+                    scaleFactor = targetVolume / originalVolume;
+                    // Calculate how many servings this volume makes
+                    servings = Math.round((targetVolume / originalVolume) * 10) / 10;
+                }
+                
+                // Calculate dilution water
+                const dilutionPercentage = dilution === 'custom' ? parseFloat(customDilution) : parseFloat(dilution);
+                const totalScaledVolume = originalVolume * scaleFactor;
+                const dilutionWater = (totalScaledVolume * dilutionPercentage) / 100;
+                
+                const scaledIngredients = recipe.ingredients.map(ingredient => {
+                    let scaledAmount = ingredient.amount * scaleFactor;
+                    
+                    return {
+                        ...ingredient,
+                        scaledAmount: Math.round(scaledAmount * 10) / 10
+                    };
                 });
                 
-                toggleModal(addProductModal);
-            }
-        }
-
-        function deleteProduct(productId) {
-            if (confirm('Are you sure you want to delete this product?')) {
-                const index = inventoryData.findIndex(item => item.id == productId);
-                if (index !== -1) {
-                    inventoryData.splice(index, 1);
-                    renderInventoryTable();
-                    updateStats();
-                    alert('Product deleted successfully!');
-                }
-            }
-        }
-
-        function addNewItem(type) {
-            let name = prompt(`Enter ${type} name:`);
-            if (name) {
-                let newItem;
-                
-                switch(type) {
-                    case 'venue':
-                        const address = prompt('Enter address:');
-                        const manager = prompt('Enter manager name:');
-                        newItem = {
-                            id: venues.length + 1,
-                            name: name,
-                            address: address,
-                            manager: manager
-                        };
-                        venues.push(newItem);
-                        renderVenues();
-                        break;
-                        
-                    case 'user':
-                        const email = prompt('Enter email:');
-                        const role = prompt('Enter role (Admin/Manager/Staff):');
-                        newItem = {
-                            id: users.length + 1,
-                            name: name,
-                            email: email,
-                            role: role,
-                            status: 'Active'
-                        };
-                        users.push(newItem);
-                        renderUsers();
-                        break;
-                        
-                    case 'area':
-                        const venue = prompt('Enter venue:');
-                        const description = prompt('Enter description:');
-                        newItem = {
-                            id: areas.length + 1,
-                            name: name,
-                            venue: venue,
-                            description: description
-                        };
-                        areas.push(newItem);
-                        renderAreas();
-                        break;
+                // Add water as a separate ingredient for dilution
+                if (dilutionWater > 0) {
+                    scaledIngredients.push({
+                        name: 'Water (for dilution)',
+                        scaledAmount: Math.round(dilutionWater * 10) / 10,
+                        unit: 'ml'
+                    });
                 }
                 
-                alert(`${type.charAt(0).toUpperCase() + type.slice(1)} added successfully!`);
-            }
+                return {
+                    ingredients: scaledIngredients,
+                    servings: servings,
+                    totalVolume: totalScaledVolume + dilutionWater
+                };
+            };
+            
+            const scaledResult = calculateScaledIngredients();
+            
+            return (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <h2 style={{color: '#FFB366', marginBottom: '1rem'}}>
+                            Scale: {recipe.name}
+                        </h2>
+                        
+                        <div className="scale-option">
+                            <h3 className="scale-option-title">Scale by Number of Servings</h3>
+                            <p className="scale-option-description">
+                                Choose this option if you know how many servings you need.
+                            </p>
+                            <div className="radio-group">
+                                <label className="radio-option">
+                                    <input
+                                        type="radio"
+                                        name="scaleMethod"
+                                        value="servings"
+                                        checked={scaleMethod === 'servings'}
+                                        onChange={(e) => setScaleMethod(e.target.value)}
+                                    />
+                                    Scale by Servings
+                                </label>
+                                {scaleMethod === 'servings' && (
+                                    <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+                                        <label>Enter Quantity:</label>
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            value={quantity}
+                                            onChange={(e) => setQuantity(parseInt(e.target.value))}
+                                            className="form-input"
+                                            style={{width: '100px'}}
+                                        />
+                                        <span>servings</span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        
+                        <div className="scale-option">
+                            <h3 className="scale-option-title">Scale by Total Volume</h3>
+                            <p className="scale-option-description">
+                                Ideal for filling a specific container or batch size.
+                            </p>
+                            <div className="radio-group">
+                                <label className="radio-option">
+                                    <input
+                                        type="radio"
+                                        name="scaleMethod"
+                                        value="volume"
+                                        checked={scaleMethod === 'volume'}
+                                        onChange={(e) => setScaleMethod(e.target.value)}
+                                    />
+                                    Scale by Volume
+                                </label>
+                                {scaleMethod === 'volume' && (
+                                    <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap'}}>
+                                        <label>Enter Quantity:</label>
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            step="0.1"
+                                            value={quantity}
+                                            onChange={(e) => setQuantity(parseFloat(e.target.value))}
+                                            className="form-input"
+                                            style={{width: '100px'}}
+                                        />
+                                        <select
+                                            value={volumeUnit}
+                                            onChange={(e) => setVolumeUnit(e.target.value)}
+                                            className="form-input"
+                                            style={{width: '120px'}}
+                                        >
+                                            <option value="ml">Milliliters</option>
+                                            <option value="oz">Ounces</option>
+                                            <option value="l">Liters</option>
+                                            <option value="gal">Gallons</option>
+                                        </select>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        
+                        <div className="scale-option">
+                            <h3 className="scale-option-title">Add Dilution (Optional)</h3>
+                            <p className="scale-option-description">
+                                Choose a dilution percentage that suits your cocktail. Water will be added as a separate ingredient.
+                            </p>
+                            <div className="dilution-options">
+                                <label className="dilution-option">
+                                    <input
+                                        type="radio"
+                                        name="dilution"
+                                        value="0"
+                                        checked={dilution === '0'}
+                                        onChange={(e) => setDilution(e.target.value)}
+                                    />
+                                    <div className="dilution-label">
+                                        <span className="dilution-percentage">0% (No Dilution)</span>
+                                        <span className="dilution-description">Best if you plan to shake or stir your drinks to order.</span>
+                                    </div>
+                                </label>
+                                
+                                <label className="dilution-option">
+                                    <input
+                                        type="radio"
+                                        name="dilution"
+                                        value="18"
+                                        checked={dilution === '18'}
+                                        onChange={(e) => setDilution(e.target.value)}
+                                    />
+                                    <div className="dilution-label">
+                                        <span className="dilution-percentage">18% (Spirit-Driven Cocktails)</span>
+                                        <span className="dilution-description">Best for strong drinks containing mainly spirits.</span>
+                                    </div>
+                                </label>
+                                
+                                <label className="dilution-option">
+                                    <input
+                                        type="radio"
+                                        name="dilution"
+                                        value="25"
+                                        checked={dilution === '25'}
+                                        onChange={(e) => setDilution(e.target.value)}
+                                    />
+                                    <div className="dilution-label">
+                                        <span className="dilution-percentage">25% (Shaken Cocktails)</span>
+                                        <span className="dilution-description">Ideal for cocktails containing fruit juices, dairy, or eggs.</span>
+                                    </div>
+                                </label>
+                                
+                                <label className="dilution-option">
+                                    <input
+                                        type="radio"
+                                        name="dilution"
+                                        value="custom"
+                                        checked={dilution === 'custom'}
+                                        onChange={(e) => setDilution(e.target.value)}
+                                    />
+                                    <div className="dilution-label">
+                                        <span className="dilution-percentage">Custom:</span>
+                                        <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.25rem'}}>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                max="100"
+                                                value={customDilution}
+                                                onChange={(e) => setCustomDilution(e.target.value)}
+                                                className="form-input"
+                                                style={{width: '80px'}}
+                                                placeholder="0"
+                                            />
+                                            <span>%</span>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        {scaleMethod === 'volume' && (
+                            <div className="servings-info">
+                                <div>This batch will make approximately</div>
+                                <div className="servings-count">{scaledResult.servings} servings</div>
+                            </div>
+                        )}
+                        
+                        <h3 style={{color: '#FFB366', marginBottom: '1rem'}}>Scaled Ingredients</h3>
+                        <ul className="ingredients-list">
+                            {scaledResult.ingredients.map((ingredient, index) => (
+                                <li key={index} className="ingredient-item">
+                                    <span>{ingredient.name}</span>
+                                    <span>{ingredient.scaledAmount} {ingredient.unit}</span>
+                                </li>
+                            ))}
+                        </ul>
+                        
+                        <div className="buttons-row">
+                            <button className="button" onClick={onClose}>
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
         }
 
-        function editVenue(venueId) {
-            const venue = venues.find(v => v.id == venueId);
-            if (venue) {
-                const newName = prompt('Enter new venue name:', venue.name);
-                if (newName) {
-                    venue.name = newName;
-                    renderVenues();
-                    alert('Venue updated successfully!');
+        // Main App Component
+        function App() {
+            const { user, login, loginAsGuest, logout } = useAuth();
+            const [currentPage, setCurrentPage] = useState('home');
+            const [selectedRecipe, setSelectedRecipe] = useState(null);
+            const [selectedSyrup, setSelectedSyrup] = useState(null);
+            const [showScaleModal, setShowScaleModal] = useState(false);
+            const [menuOpen, setMenuOpen] = useState(false);
+            const [editingItem, setEditingItem] = useState(null);
+            const [isEditing, setIsEditing] = useState(false);
+            const [syncStatus, setSyncStatus] = useState(null);
+            
+            // Sync data on app load
+            useEffect(() => {
+                const syncData = async () => {
+                    setSyncStatus({ status: 'syncing', message: 'Loading data from cloud...' });
+                    const result = await syncFromCloud();
+                    if (result.success) {
+                        setSyncStatus({ status: 'success', message: 'Data loaded successfully' });
+                        // Refresh the page to show updated data
+                        setTimeout(() => {
+                            setSyncStatus(null);
+                            window.location.reload();
+                        }, 2000);
+                    } else {
+                        setSyncStatus({ status: 'error', message: result.error });
+                        setTimeout(() => setSyncStatus(null), 5000);
+                    }
+                };
+                
+                syncData();
+            }, []);
+            
+            // Redirect to login if not authenticated and trying to access protected pages
+            useEffect(() => {
+                if (!user && (currentPage === 'create-recipe' || currentPage === 'settings')) {
+                    setCurrentPage('home');
                 }
-            }
-        }
-
-        function deleteVenue(venueId) {
-            if (confirm('Are you sure you want to delete this venue?')) {
-                const index = venues.findIndex(v => v.id == venueId);
-                if (index !== -1) {
-                    venues.splice(index, 1);
-                    renderVenues();
-                    alert('Venue deleted successfully!');
+            }, [user, currentPage]);
+            
+            const navigateTo = (page, item = null) => {
+                // Prevent navigation to protected pages if not admin
+                if ((page === 'create-recipe' || page === 'settings') && (!user || !user.isAdmin)) {
+                    return;
                 }
-            }
-        }
-
-        function editUser(userId) {
-            const user = users.find(u => u.id == userId);
-            if (user) {
-                const newName = prompt('Enter new user name:', user.name);
-                if (newName) {
-                    user.name = newName;
-                    renderUsers();
-                    alert('User updated successfully!');
+                setCurrentPage(page);
+                if (page === 'view-recipe') setSelectedRecipe(item);
+                if (page === 'view-syrup') setSelectedSyrup(item);
+                setMenuOpen(false);
+            };
+            
+            const handleDeleteRecipe = async (recipeId) => {
+                if (!user || !user.isAdmin) return;
+                
+                if (confirm('Are you sure you want to delete this cocktail?')) {
+                    const updatedRecipes = getRecipes().filter(recipe => recipe.id !== recipeId);
+                    setSyncStatus({ status: 'syncing', message: 'Deleting recipe...' });
+                    
+                    const result = await saveRecipes(updatedRecipes);
+                    if (result.localSuccess) {
+                        setSyncStatus({ status: 'success', message: 'Recipe deleted successfully' });
+                        // Force re-render by navigating away and back
+                        setCurrentPage('home');
+                        setTimeout(() => {
+                            setSyncStatus(null);
+                            setCurrentPage('home');
+                        }, 1000);
+                    } else {
+                        setSyncStatus({ status: 'error', message: 'Failed to delete recipe' });
+                        setTimeout(() => setSyncStatus(null), 3000);
+                    }
                 }
-            }
-        }
-
-        function deleteUser(userId) {
-            if (confirm('Are you sure you want to delete this user?')) {
-                const index = users.findIndex(u => u.id == userId);
-                if (index !== -1) {
-                    users.splice(index, 1);
-                    renderUsers();
-                    alert('User deleted successfully!');
+            };
+            
+            const handleDeleteSyrup = async (syrupId) => {
+                if (!user || !user.isAdmin) return;
+                
+                if (confirm('Are you sure you want to delete this syrup?')) {
+                    const updatedSyrups = getSyrups().filter(syrup => syrup.id !== syrupId);
+                    setSyncStatus({ status: 'syncing', message: 'Deleting syrup...' });
+                    
+                    const result = await saveSyrups(updatedSyrups);
+                    if (result.localSuccess) {
+                        setSyncStatus({ status: 'success', message: 'Syrup deleted successfully' });
+                        setCurrentPage('syrups');
+                        setTimeout(() => {
+                            setSyncStatus(null);
+                            setCurrentPage('syrups');
+                        }, 1000);
+                    } else {
+                        setSyncStatus({ status: 'error', message: 'Failed to delete syrup' });
+                        setTimeout(() => setSyncStatus(null), 3000);
+                    }
                 }
-            }
-        }
-
-        function editArea(areaId) {
-            const area = areas.find(a => a.id == areaId);
-            if (area) {
-                const newName = prompt('Enter new area name:', area.name);
-                if (newName) {
-                    area.name = newName;
-                    renderAreas();
-                    alert('Area updated successfully!');
+            };
+            
+            const handleSaveRecipe = async (recipeData) => {
+                let updatedRecipes;
+                
+                if (isEditing && editingItem) {
+                    // Update existing recipe
+                    const recipes = getRecipes();
+                    const index = recipes.findIndex(r => r.id === editingItem.id);
+                    if (index !== -1) {
+                        recipes[index] = recipeData;
+                        updatedRecipes = recipes;
+                    }
+                } else {
+                    // Add new recipe
+                    updatedRecipes = [...getRecipes(), recipeData];
                 }
-            }
-        }
-
-        function deleteArea(areaId) {
-            if (confirm('Are you sure you want to delete this area?')) {
-                const index = areas.findIndex(a => a.id == areaId);
-                if (index !== -1) {
-                    areas.splice(index, 1);
-                    renderAreas();
-                    alert('Area deleted successfully!');
+                
+                setSyncStatus({ status: 'syncing', message: 'Saving recipe...' });
+                const result = await saveRecipes(updatedRecipes);
+                
+                if (result.localSuccess) {
+                    let message = isEditing ? 'Recipe updated successfully' : 'Recipe saved successfully';
+                    if (result.cloudSuccess) {
+                        message += ' and synced to cloud';
+                    } else if (user.isAdmin) {
+                        message += ' but failed to sync to cloud';
+                    }
+                    
+                    setSyncStatus({ status: 'success', message });
+                    setIsEditing(false);
+                    setEditingItem(null);
+                    
+                    setTimeout(() => {
+                        setSyncStatus(null);
+                        navigateTo('home');
+                    }, 1500);
+                } else {
+                    setSyncStatus({ status: 'error', message: 'Failed to save recipe' });
+                    setTimeout(() => setSyncStatus(null), 3000);
                 }
+            };
+            
+            const handleSaveSyrup = async (syrupData) => {
+                let updatedSyrups;
+                
+                if (isEditing && editingItem) {
+                    // Update existing syrup
+                    const syrups = getSyrups();
+                    const index = syrups.findIndex(s => s.id === editingItem.id);
+                    if (index !== -1) {
+                        syrups[index] = syrupData;
+                        updatedSyrups = syrups;
+                    }
+                } else {
+                    // Add new syrup
+                    updatedSyrups = [...getSyrups(), syrupData];
+                }
+                
+                setSyncStatus({ status: 'syncing', message: 'Saving syrup...' });
+                const result = await saveSyrups(updatedSyrups);
+                
+                if (result.localSuccess) {
+                    let message = isEditing ? 'Syrup updated successfully' : 'Syrup saved successfully';
+                    if (result.cloudSuccess) {
+                        message += ' and synced to cloud';
+                    } else if (user.isAdmin) {
+                        message += ' but failed to sync to cloud';
+                    }
+                    
+                    setSyncStatus({ status: 'success', message });
+                    setIsEditing(false);
+                    setEditingItem(null);
+                    
+                    setTimeout(() => {
+                        setSyncStatus(null);
+                        navigateTo('syrups');
+                    }, 1500);
+                } else {
+                    setSyncStatus({ status: 'error', message: 'Failed to save syrup' });
+                    setTimeout(() => setSyncStatus(null), 3000);
+                }
+            };
+            
+            // Edit handlers
+            const handleEditRecipe = (recipe) => {
+                setEditingItem(recipe);
+                setIsEditing(true);
+                setCurrentPage('create-recipe');
+            };
+            
+            const handleEditSyrup = (syrup) => {
+                setEditingItem(syrup);
+                setIsEditing(true);
+                setCurrentPage('create-syrup');
+            };
+            
+            const renderPage = () => {
+                if (!user) {
+                    return <LoginPage onLogin={login} onGuestLogin={loginAsGuest} />;
+                }
+                
+                switch(currentPage) {
+                    case 'home':
+                        return <HomePage 
+                            onRecipeClick={(recipe) => navigateTo('view-recipe', recipe)}
+                            onDeleteRecipe={handleDeleteRecipe}
+                            isAdmin={user.isAdmin}
+                            onCreateRecipe={() => {
+                                setIsEditing(false);
+                                setEditingItem(null);
+                                navigateTo('create-recipe');
+                            }}
+                            syncStatus={syncStatus}
+                        />;
+                    case 'view-recipe':
+                        return <ViewRecipePage 
+                            recipe={selectedRecipe} 
+                            onBack={() => navigateTo('home')}
+                            onScale={() => setShowScaleModal(true)}
+                            isAdmin={user.isAdmin}
+                            onDeleteRecipe={handleDeleteRecipe}
+                            onEditRecipe={handleEditRecipe}
+                        />;
+                    case 'create-recipe':
+                        return <CreateEditRecipePage 
+                            recipe={editingItem}
+                            onBack={() => navigateTo('home')} 
+                            onSave={handleSaveRecipe}
+                            isEdit={isEditing}
+                        />;
+                    case 'syrups':
+                        return <SyrupsPage 
+                            onSyrupClick={(syrup) => navigateTo('view-syrup', syrup)}
+                            onCreateSyrup={() => {
+                                setIsEditing(false);
+                                setEditingItem(null);
+                                navigateTo('create-syrup');
+                            }}
+                            onDeleteSyrup={handleDeleteSyrup}
+                            isAdmin={user.isAdmin}
+                            syncStatus={syncStatus}
+                        />;
+                    case 'view-syrup':
+                        return <ViewSyrupPage 
+                            syrup={selectedSyrup} 
+                            onBack={() => navigateTo('syrups')}
+                            isAdmin={user.isAdmin}
+                            onDeleteSyrup={handleDeleteSyrup}
+                            onEditSyrup={handleEditSyrup}
+                        />;
+                    case 'create-syrup':
+                        return <CreateEditSyrupPage 
+                            syrup={editingItem}
+                            onBack={() => navigateTo('syrups')}
+                            onSave={handleSaveSyrup}
+                            isEdit={isEditing}
+                        />;
+                    case 'settings':
+                        return <SettingsPage 
+                            onBack={() => navigateTo('home')} 
+                            isAdmin={user.isAdmin}
+                            syncStatus={syncStatus}
+                        />;
+                    default:
+                        return <HomePage 
+                            onRecipeClick={(recipe) => navigateTo('view-recipe', recipe)}
+                            onDeleteRecipe={handleDeleteRecipe}
+                            isAdmin={user.isAdmin}
+                            onCreateRecipe={() => navigateTo('create-recipe')}
+                            syncStatus={syncStatus}
+                        />;
+                }
+            };
+            
+            if (!user) {
+                return <LoginPage onLogin={login} onGuestLogin={loginAsGuest} />;
             }
+            
+            return (
+                <div className="app">
+                    <header className="header">
+                        <div className="header-left">
+                            <button 
+                                className={`menu-button ${menuOpen ? 'active' : ''}`}
+                                onClick={() => setMenuOpen(!menuOpen)}
+                                aria-label="Toggle menu"
+                            >
+                                <span className="menu-line"></span>
+                                <span className="menu-line"></span>
+                                <span className="menu-line"></span>
+                            </button>
+                        </div>
+                        
+                        <div className="nav-user">
+                            👤 {user.username}
+                            {user.isAdmin && <span style={{color: '#FFB366', fontSize: '0.7rem'}}> (Admin)</span>}
+                            {!user.isAdmin && <span style={{color: '#666', fontSize: '0.7rem'}}> (Guest)</span>}
+                            <button className="logout-btn" onClick={logout}>
+                                Logout
+                            </button>
+                        </div>
+                    </header>
+                    
+                    <HamburgerMenu 
+                        isOpen={menuOpen}
+                        onToggle={setMenuOpen}
+                        currentPage={currentPage}
+                        onNavigate={navigateTo}
+                        isAdmin={user.isAdmin}
+                    />
+                    
+                    <main>
+                        {renderPage()}
+                    </main>
+
+                    <footer className="footer">
+                        <p>
+                            Cocktail Manual © {new Date().getFullYear()} | Created by{' '}
+                            <a href="https://www.instagram.com/suraj.gg87/" target="_blank" rel="noopener noreferrer">
+                                @suraj.gg87
+                            </a>
+                        </p>
+                    </footer>
+
+                    {showScaleModal && selectedRecipe && (
+                        <ScaleModal 
+                            recipe={selectedRecipe}
+                            onClose={() => setShowScaleModal(false)}
+                        />
+                    )}
+                </div>
+            );
         }
 
-        // Initialize the application when the DOM is loaded
-        document.addEventListener('DOMContentLoaded', init);
+        // Render the app
+        ReactDOM.render(<App />, document.getElementById('root'));
     </script>
 </body>
 </html>
