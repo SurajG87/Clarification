@@ -34,28 +34,29 @@
             background: linear-gradient(135deg, var(--cream) 0%, #f0ebe0 100%);
             color: #333;
             font-family: 'Source Sans Pro', sans-serif;
-            line-height: 1.6;
+            line-height: 1.5;
             padding: 0;
             margin: 0;
             min-height: 100vh;
-            font-size: 16px;
+            font-size: 14px;
         }
         
         .container {
-            max-width: 900px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
+            padding-bottom: 60px; /* Space for footer */
         }
         
         header {
             background: linear-gradient(to right, var(--pink), var(--dark-pink));
             color: white;
-            padding: 25px 0;
+            padding: 20px 0;
             text-align: center;
             border-radius: var(--border-radius);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             box-shadow: var(--shadow);
-            border: 3px solid var(--brown);
+            border: 2px solid var(--brown);
             position: relative;
             overflow: hidden;
         }
@@ -66,35 +67,35 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 5px;
+            height: 4px;
             background: var(--light-blue);
         }
         
         h1, h2, h3 {
             font-family: 'Playfair Display', serif;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: #333;
         }
         
         h1 {
-            font-size: 2.2rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
         
         h2 {
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             border-bottom: 2px solid var(--pink);
-            padding-bottom: 8px;
-            margin-bottom: 20px;
+            padding-bottom: 6px;
+            margin-bottom: 15px;
         }
         
         .card {
             background-color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 15px;
+            margin-bottom: 15px;
             border: 2px solid var(--brown);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
@@ -102,8 +103,8 @@
         }
         
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
         
         .card::before {
@@ -111,29 +112,29 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 8px;
+            width: 6px;
             height: 100%;
             background: var(--light-blue);
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             color: var(--brown);
         }
         
         select, input {
             width: 100%;
-            padding: 12px 15px;
+            padding: 10px 12px;
             border: 2px solid var(--brown);
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 6px;
+            font-size: 14px;
             font-family: 'Source Sans Pro', sans-serif;
             background-color: var(--cream);
             transition: border-color 0.3s;
@@ -148,16 +149,16 @@
             background: linear-gradient(to right, var(--pink), var(--dark-pink));
             color: white;
             border: none;
-            padding: 14px 20px;
-            border-radius: 8px;
+            padding: 12px 16px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             transition: all 0.3s;
             width: 100%;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-family: 'Source Sans Pro', sans-serif;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
         }
@@ -179,7 +180,7 @@
         
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 5px 7px rgba(0, 0, 0, 0.15);
         }
         
         .button-secondary {
@@ -188,16 +189,16 @@
         
         .result {
             background-color: var(--light-blue);
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
             display: none;
             border: 2px solid var(--brown);
             animation: fadeIn 0.5s ease;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
@@ -207,24 +208,24 @@
         
         .acid-info {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 15px;
         }
         
         .acid-card {
             background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 6px solid var(--pink);
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 5px solid var(--pink);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s;
             position: relative;
             overflow: hidden;
         }
         
         .acid-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
         
         .acid-card::before {
@@ -232,21 +233,21 @@
             position: absolute;
             top: 0;
             right: 0;
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             background: var(--light-blue);
             border-radius: 0 0 0 100%;
         }
         
         .quiz-container {
-            margin-top: 30px;
+            margin-top: 20px;
         }
         
         .quiz-question {
-            margin-bottom: 25px;
-            padding: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
             background: white;
-            border-radius: 8px;
+            border-radius: 6px;
             border: 2px solid var(--brown);
             position: relative;
         }
@@ -254,10 +255,10 @@
         .quiz-question::before {
             content: attr(data-number);
             position: absolute;
-            top: -15px;
-            left: 20px;
-            width: 30px;
-            height: 30px;
+            top: -12px;
+            left: 15px;
+            width: 25px;
+            height: 25px;
             background: var(--pink);
             color: white;
             border-radius: 50%;
@@ -266,16 +267,17 @@
             justify-content: center;
             font-weight: bold;
             border: 2px solid var(--brown);
+            font-size: 12px;
         }
         
         .quiz-options {
-            margin: 15px 0;
+            margin: 12px 0;
         }
         
         .quiz-option {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 6px;
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 5px;
             transition: background 0.3s;
         }
         
@@ -284,9 +286,9 @@
         }
         
         .quiz-result {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 8px;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
             display: none;
             animation: fadeIn 0.5s ease;
         }
@@ -297,45 +299,47 @@
         
         .correct {
             background-color: rgba(138, 155, 104, 0.2);
-            border-left: 4px solid var(--olive);
+            border-left: 3px solid var(--olive);
         }
         
         .incorrect {
             background-color: rgba(212, 138, 148, 0.2);
-            border-left: 4px solid var(--dark-pink);
+            border-left: 3px solid var(--dark-pink);
         }
         
-        .tab-container {
-            margin-top: 20px;
-        }
-        
-        .tabs {
+        /* Horizontal tabs optimized for mobile */
+        .horizontal-tabs {
             display: flex;
-            border-bottom: 2px solid var(--brown);
-            margin-bottom: 20px;
-            background: white;
-            border-radius: 8px 8px 0 0;
-            overflow: hidden;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            gap: 5px;
         }
         
-        .tab {
-            padding: 15px 25px;
+        .horizontal-tab {
+            padding: 10px 5px;
+            background: var(--cream);
+            border: 2px solid var(--brown);
+            border-radius: 6px;
             cursor: pointer;
-            border-bottom: 3px solid transparent;
             font-weight: 600;
             transition: all 0.3s;
-            flex: 1;
             text-align: center;
-            background: var(--cream);
-            font-size: 16px;
+            flex: 1;
+            font-size: 11px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .tab.active {
-            border-bottom: 3px solid var(--pink);
-            background: white;
+        .horizontal-tab.active {
+            background: var(--pink);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
         }
         
-        .tab:hover {
+        .horizontal-tab:hover {
             background: var(--light-blue);
         }
         
@@ -348,37 +352,36 @@
             display: block;
         }
         
+        /* Minimalistic footer */
         footer {
-            background: linear-gradient(to right, var(--olive), var(--dark-green));
-            color: white;
+            background: transparent;
+            color: var(--dark-green);
             text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            border: 2px solid var(--brown);
+            padding: 15px;
+            margin-top: 30px;
+            border-top: 1px solid var(--olive);
         }
         
         footer a {
-            color: white;
+            color: var(--dark-green);
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s;
         }
         
         footer a:hover {
-            color: var(--light-blue);
+            color: var(--olive);
         }
         
         .badge {
             display: inline-block;
-            padding: 5px 10px;
+            padding: 4px 8px;
             background: var(--pink);
             color: white;
-            border-radius: 20px;
-            font-size: 14px;
-            margin-right: 5px;
-            margin-bottom: 5px;
+            border-radius: 15px;
+            font-size: 11px;
+            margin-right: 4px;
+            margin-bottom: 4px;
             border: 1px solid var(--brown);
         }
         
@@ -394,85 +397,59 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             background: var(--pink);
             color: white;
             border-radius: 50%;
-            margin-right: 10px;
+            margin-right: 8px;
             border: 2px solid var(--brown);
             font-weight: bold;
+            font-size: 12px;
         }
         
-        /* Horizontal tab layout */
-        .horizontal-tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .horizontal-tab {
-            padding: 12px 24px;
-            margin: 0 5px;
-            background: var(--cream);
-            border: 2px solid var(--brown);
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            text-align: center;
-            flex: 0 1 auto;
-            min-width: 120px;
-        }
-        
-        .horizontal-tab.active {
-            background: var(--pink);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
-        
-        .horizontal-tab:hover {
-            background: var(--light-blue);
-        }
-        
-        @media (max-width: 600px) {
-            body {
-                font-size: 14px;
+        /* Mobile-specific optimizations */
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+                padding-bottom: 50px;
             }
             
-            .container {
-                padding: 15px;
+            header {
+                padding: 15px 0;
+                margin-bottom: 15px;
             }
             
             h1 {
-                font-size: 1.8rem;
-            }
-            
-            h2 {
                 font-size: 1.4rem;
             }
             
+            h2 {
+                font-size: 1.2rem;
+            }
+            
             .card {
-                padding: 15px;
-            }
-            
-            .acid-info {
-                grid-template-columns: 1fr;
-            }
-            
-            .horizontal-tabs {
-                flex-direction: column;
-                align-items: center;
+                padding: 12px;
             }
             
             .horizontal-tab {
-                width: 100%;
-                margin: 5px 0;
+                font-size: 10px;
+                padding: 8px 3px;
             }
             
-            button {
-                padding: 12px 15px;
+            footer {
+                padding: 10px;
+                font-size: 12px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 600px;
+            }
+            
+            .acid-info {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -486,7 +463,7 @@
         
         <div class="horizontal-tabs">
             <div class="horizontal-tab active" data-tab="calculator">Calculator</div>
-            <div class="horizontal-tab" data-tab="info">Acid Information</div>
+            <div class="horizontal-tab" data-tab="info">Acid Info</div>
             <div class="horizontal-tab" data-tab="quiz">Quiz</div>
         </div>
         
@@ -544,8 +521,7 @@
                     <div class="acid-card">
                         <h3>Lime</h3>
                         <p>Roughly 4% citric</p>
-                        <p>2% malic (malic content - acidity lingers longer than lemon)</p>
-                        <p>Tiny bit of Succinic acid (bitter/metallic/bloody)</p>
+                        <p>2% malic (acidity lingers longer)</p>
                         <span class="badge">Citric</span>
                         <span class="badge badge-blue">Malic</span>
                     </div>
@@ -553,7 +529,7 @@
                     <div class="acid-card">
                         <h3>Citric Acid</h3>
                         <p>Primary acid in lemon juice</p>
-                        <p>On its own tastes like lemon</p>
+                        <p>Tastes like lemon</p>
                         <p>Clean, hits hard and fades quickly</p>
                         <span class="badge">Citrus</span>
                     </div>
@@ -561,8 +537,8 @@
                     <div class="acid-card">
                         <h3>Malic Acid</h3>
                         <p>Primary acid in apples</p>
-                        <p>On its own it tastes like green apple candy</p>
-                        <p>Flavor lingers longer than citric acid</p>
+                        <p>Tastes like green apple candy</p>
+                        <p>Flavor lingers longer</p>
                         <span class="badge badge-green">Apple</span>
                     </div>
                     
@@ -576,48 +552,30 @@
                     <div class="acid-card">
                         <h3>Acetic Acid</h3>
                         <p>Is vinegar</p>
-                        <p>The only common food acid that is aromatic</p>
-                        <p>Used in bitters and savory cocktails</p>
+                        <p>Aromatic food acid</p>
                         <span class="badge">Vinegar</span>
                     </div>
                     
                     <div class="acid-card">
                         <h3>Lactic Acid</h3>
-                        <p>Comes from fermentation</p>
-                        <p>Sauerkraut, pickle, cheese and salami</p>
+                        <p>From fermentation</p>
+                        <p>Sauerkraut, pickle, cheese</p>
                         <span class="badge badge-green">Fermented</span>
                     </div>
                     
                     <div class="acid-card">
                         <h3>Phosphoric Acid</h3>
                         <p>Non-organic acid</p>
-                        <p>Used in colas and soda fountains</p>
-                        <p>Extremely strong and dry</p>
-                        <p>Similar to citric acid</p>
+                        <p>Used in colas</p>
                         <span class="badge">Cola</span>
-                    </div>
-                    
-                    <div class="acid-card">
-                        <h3>Ascorbic Acid</h3>
-                        <p>Vitamin C</p>
-                        <p>Used to stop juices from turning brown</p>
-                        <span class="badge badge-blue">Preservative</span>
-                    </div>
-                    
-                    <div class="acid-card">
-                        <h3>Salt Solution</h3>
-                        <p>Add salt for any fruit/coffee/chocolate drinks</p>
-                        <p>20g salt + 80ml water</p>
-                        <p>Add a drop or two for drink</p>
-                        <span class="badge">Enhancer</span>
                     </div>
                 </div>
                 
                 <div class="acid-combinations">
                     <h3>Common Acid Combinations</h3>
                     <div class="acid-card">
-                        <p><strong>Citric acid + Malic acid = Lime</strong></p>
-                        <p><strong>Tartaric acid + Lactic Acid = Acid of Champagne</strong></p>
+                        <p><strong>Citric + Malic = Lime</strong></p>
+                        <p><strong>Tartaric + Lactic = Champagne Acid</strong></p>
                         <p><strong>Orange juice: 0.8% citric acid</strong></p>
                     </div>
                 </div>
@@ -661,7 +619,7 @@
                 ]
             },
             {
-                question: "Which acid is known for having a lingering flavor compared to citric acid?",
+                question: "Which acid is known for having a lingering flavor?",
                 options: [
                     { text: "Acetic Acid", correct: false },
                     { text: "Malic Acid", correct: true },
@@ -669,7 +627,7 @@
                 ]
             },
             {
-                question: "What combination of acids mimics the acidity of lime?",
+                question: "What combination mimics the acidity of lime?",
                 options: [
                     { text: "Citric + Tartaric", correct: false },
                     { text: "Citric + Malic", correct: true },
@@ -685,7 +643,7 @@
                 ]
             },
             {
-                question: "What percentage of acid does lemon juice typically contain?",
+                question: "What percentage of acid does lemon juice contain?",
                 options: [
                     { text: "4%", correct: false },
                     { text: "6%", correct: true },
@@ -693,7 +651,7 @@
                 ]
             },
             {
-                question: "Which acid is commonly used to prevent juices from browning?",
+                question: "Which acid prevents juices from browning?",
                 options: [
                     { text: "Citric Acid", correct: false },
                     { text: "Ascorbic Acid", correct: true },
@@ -701,7 +659,7 @@
                 ]
             },
             {
-                question: "What is the primary acid found in apples?",
+                question: "What is the primary acid in apples?",
                 options: [
                     { text: "Citric Acid", correct: false },
                     { text: "Malic Acid", correct: true },
@@ -709,7 +667,7 @@
                 ]
             },
             {
-                question: "Which acid combination creates the acidity profile of Champagne?",
+                question: "Which combination creates Champagne acidity?",
                 options: [
                     { text: "Citric + Malic", correct: false },
                     { text: "Tartaric + Lactic", correct: true },
